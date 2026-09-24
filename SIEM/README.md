@@ -11,7 +11,7 @@ Deploy Wazuh SIEM, connect a Wazuh agent, and detect web attacks (SQL Injection,
 
 ## 📋 Architecture
 
-──────────────┐ ┌──────────────┐ ┌──────────────┐
+┌──────────────┐ ┌──────────────┐ ┌──────────────┐
 │ DVWA │────▶│ Wazuh Agent │────▶│ Wazuh │
 │ (Docker) │ │ (Kali) │ │ Manager │
 └──────────────┘ └──────────────┘ └──────┬───────┘
@@ -24,7 +24,6 @@ Deploy Wazuh SIEM, connect a Wazuh agent, and detect web attacks (SQL Injection,
 ┌──────▼───────┐
 │ Dashboard │
 └──────────────┘
-
 
 ## 🚀 Installation
 
