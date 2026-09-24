@@ -1,0 +1,72 @@
+{
+  "_index": "wazuh-alerts-4.x-2026.09.24",
+  "_id": "d3740aAB7c8fmKiH3oAS",
+  "_score": 1,
+  "_source": {
+    "agent": {
+      "ip": "0000:0000:0000:0000:0000:0000:0000:0001",
+      "name": "kali",
+      "id": "001"
+    },
+    "manager": {
+      "name": "wazuh.manager"
+    },
+    "data": {
+      "protocol": "GET",
+      "srcip": "172.17.0.1",
+      "id": "200",
+      "url": "/vulnerabilities/xss_r/?name=%3Cscript%3Ealert%28%27XSS%27%29%3C%2Fscript%3E"
+    },
+    "rule": {
+      "firedtimes": 1,
+      "mail": false,
+      "level": 6,
+      "pci_dss": [
+        "6.5",
+        "11.4"
+      ],
+      "tsc": [
+        "CC6.6",
+        "CC7.1",
+        "CC8.1",
+        "CC6.1",
+        "CC6.8",
+        "CC7.2",
+        "CC7.3"
+      ],
+      "description": "A web attack returned code 200 (success).",
+      "groups": [
+        "web",
+        "accesslog",
+        "attack"
+      ],
+      "id": "31106",
+      "nist_800_53": [
+        "SA.11",
+        "SI.4"
+      ],
+      "gdpr": [
+        "IV_35.7.d"
+      ]
+    },
+    "decoder": {
+      "name": "web-accesslog"
+    },
+    "full_log": "172.17.0.1 - - [24/Sep/2026:05:52:21 +0000] \"GET /vulnerabilities/xss_r/?name=%3Cscript%3Ealert%28%27XSS%27%29%3C%2Fscript%3E HTTP/1.1\" 200 1776 \"http://localhost:8080/vulnerabilities/xss_r/\" \"Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0\"",
+    "input": {
+      "type": "log"
+    },
+    "@timestamp": "2026-09-24T05:52:21.767Z",
+    "location": "/mnt/data/dvwa-logs/access.log",
+    "id": "1790229141.1545192",
+    "timestamp": "2026-09-24T05:52:21.767+0000"
+  },
+  "fields": {
+    "@timestamp": [
+      "2026-09-24T05:52:21.767Z"
+    ],
+    "timestamp": [
+      "2026-09-24T05:52:21.767Z"
+    ]
+  }
+}
