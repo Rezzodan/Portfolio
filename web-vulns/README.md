@@ -66,8 +66,6 @@ Understand how SQL Injection and XSS work by exploiting DVWA (Damn Vulnerable We
 - Both SQLi and XSS are in **OWASP Top 10**
 
 ## 🔗 Related
-- [Day 4: Python SSH Monitor](../purplebot/)
-- [Day 3: Nmap Scan](../nmap-scan/)
 - [Portfolio](https://github.com/Rezzodan/purple-team-lab)
 
 ---
