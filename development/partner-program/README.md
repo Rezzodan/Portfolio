@@ -1,8 +1,13 @@
 # Partner Program (PRM)
 
 ![Cover](./assets/cover.png)
+## Screenshots
 
-![Public login screen](./assets/ui.png)
+![Partner login](./assets/ui-login.png)
+
+![Partner registration](./assets/ui-register.png)
+
+Public partner auth & onboarding step 1 (profile type).
 
 **Role:** Full-stack  
 **Status:** Production  

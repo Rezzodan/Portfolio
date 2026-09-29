@@ -1,6 +1,13 @@
 # Core API
 
 ![Cover](./assets/cover.png)
+## Screenshots
+
+![API Swagger](./assets/swagger.png)
+
+![More endpoints](./assets/swagger-more.png)
+
+Public OpenAPI docs (LAN URL redacted). No secrets or payloads shown.
 
 **Role:** Backend / platform  
 **Status:** Production  

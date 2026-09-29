@@ -31,6 +31,9 @@ Full-stack work on a **commercial fintech / credit-consulting platform** (~2 yea
 
 `C#` · `ASP.NET Core` · `Python` · `FastAPI` · `Django` · `React` · `TypeScript` · `React Native` · `PostgreSQL` · `Docker` · `Traefik` · `Bitrix24` · `Telegram Mini Apps` · `OCR` · `JWT` · `Webhooks`
 
-## Note on screenshots
+## Screenshot policy
 
-Covers are illustrative. Where `ui.png` is present, it is a **public authentication screen** with no personal data.
+Real UI captures from public login screens, OpenAPI docs, demo/fixture client flows, and infra status boards.
+
+**Excluded on purpose:** authenticated client cabinets with real PII, deal PDFs, letters, `.env`, tokens, webhook URLs.
+
