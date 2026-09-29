@@ -1,6 +1,13 @@
 # Production Infrastructure
 
 ![Cover](./assets/cover.png)
+## Screenshots
+
+![Mail login](./assets/mail-login.png)
+
+![Container status](./assets/containers-status.png)
+
+Self-hosted mail UI + production container status (names/status only).
 
 **Role:** DevOps / platform  
 **Status:** Production  

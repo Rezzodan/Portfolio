@@ -1,6 +1,13 @@
 # Credit Enot — B2C App *(in development)*
 
 ![Cover](./assets/cover.png)
+## Screenshots
+
+![Splash](./assets/ui-splash.png)
+
+![Demo home](./assets/ui-demo.png)
+
+In-development mobile UI (demo mode, synthetic user name).
 
 **Role:** Product / architecture / mobile  
 **Status:** 🚧 **In active development**  

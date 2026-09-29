@@ -1,6 +1,11 @@
 # Client Mini App (Telegram + MAX)
 
 ![Cover](./assets/cover.png)
+## Screenshots
+
+![Client menu](./assets/ui-menu.png)
+
+Mobile client menu with deal status chip (demo/fixture data — no real client PII).
 
 **Role:** Frontend / product delivery  
 **Status:** Production  

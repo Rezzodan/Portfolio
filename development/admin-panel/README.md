@@ -1,8 +1,11 @@
 # Admin Panel (Operators)
 
 ![Cover](./assets/cover.png)
+## Screenshots
 
-![Public login screen](./assets/ui.png)
+![Operator login](./assets/ui-login.png)
+
+Public authentication screen only.
 
 **Role:** Frontend  
 **Status:** Production  

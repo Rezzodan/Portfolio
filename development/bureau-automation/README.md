@@ -1,6 +1,13 @@
 # Bureau Automation (CRM Robot)
 
 ![Cover](./assets/cover.png)
+## Screenshots
+
+![CF API docs](./assets/api-docs.png)
+
+![Mail agent docs](./assets/openclaw-docs.png)
+
+Public OpenAPI for the webhook robot and mail agent. No webhook secrets.
 
 **Role:** Backend automation  
 **Status:** Production (optional — can be stopped when unused)  

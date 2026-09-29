@@ -1,8 +1,13 @@
 # Lawyer Workspace + Mail Agent
 
 ![Cover](./assets/cover.png)
+## Screenshots
 
-![Public login screen](./assets/ui.png)
+![Lawyer login](./assets/ui-login.png)
+
+![Credit Helper API docs](./assets/api-docs.png)
+
+Login UI + public OpenAPI surface (no case data).
 
 **Role:** Full-stack  
 **Status:** Production  
