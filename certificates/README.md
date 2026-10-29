@@ -35,7 +35,25 @@ This directory contains the course certificates I have earned as part of the **G
     *   [View Certificate](./2-play-it-safe-manage-security-risks.pdf)
     *   *Key skills: Risk management, security frameworks, SIEM tools, incident playbooks.*
 
-*(Course 3: Connect and Protect: Networks and Network Security — in progress...)*
+*   ✅ Course 3: Connect and Protect: Networks and Network Security
+*   **[View Certificate](./3-connect-and-protect-networks-and-network-security.pdf)**
+*   **Key Skills Acquired:**
+    *   Deep understanding of the TCP/IP model and network architecture.
+    *   Analyzing and mitigating network attacks (DoS, SYN Flood, ICMP Flood).
+    *   Operating System (OS) hardening (patch management, least privilege, MFA).
+    *   Network hardening (firewall maintenance, port filtering, segmentation).
+    *   Cloud security fundamentals and secure protocols.
+
+
+## 🚀 Currently Learning
+
+### 🟡 Course 4: Tools of the Trade: Linux and SQL
+*   **Key Topics Being Covered:**
+    *   Navigating the Linux file system using the command line (Bash).
+    *   Managing file permissions and user access.
+    *   Querying relational databases using SQL (filtering, joining tables).
+    *   Analyzing security data using Linux and SQL
+
 
 ---
 
