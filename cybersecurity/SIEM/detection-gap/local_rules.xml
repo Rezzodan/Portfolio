@@ -1,0 +1,28 @@
+<!--
+  Boolean-based SQL injection in web access logs.
+  Default rule 31103 matches only keywords (select, union, insert, where, ...),
+  so a tautology such as 1' OR '1'='1 produces no alert.
+  Install: /var/ossec/etc/rules/local_rules.xml on the manager, then restart it.
+-->
+<group name="web,accesslog,attack,sql_injection,">
+
+  <rule id="100100" level="7">
+    <if_sid>31100,31108</if_sid>
+    <url type="pcre2">(?i)(%27|')(\+|%20|\s)*(or|and)(\+|%20|\s)+(%27|')?\w+(%27|')?(\+|%20|\s)*(=|%3D)</url>
+    <description>SQL injection attempt: boolean condition (e.g. ' OR '1'='1) in URL.</description>
+    <mitre>
+      <id>T1190</id>
+    </mitre>
+    <group>pci_dss_6.5,pci_dss_11.4,pci_dss_6.5.1,gdpr_IV_35.7.d,nist_800_53_SA.11,nist_800_53_SI.4,</group>
+  </rule>
+
+  <rule id="100101" level="8">
+    <if_sid>100100</if_sid>
+    <id>^200</id>
+    <description>SQL injection attempt (boolean condition) returned code 200 (success).</description>
+    <mitre>
+      <id>T1190</id>
+    </mitre>
+  </rule>
+
+</group>

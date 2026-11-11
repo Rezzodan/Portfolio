@@ -21,7 +21,7 @@ HMAC-signed callbacks, PII masking in logs, and handling production incidents on
 | Project | Why it matters |
 |---------|----------------|
 | [SSH brute-force monitor](cybersecurity/purplebot/) | Detection tool in Python with a threat-aware design, 12 tests and CI with security linting |
-| [SIEM with Wazuh](cybersecurity/SIEM/) | Web-attack detection from DVWA logs, alert triage |
+| [SIEM with Wazuh](cybersecurity/SIEM/) | Web-attack detection from DVWA logs; found that default rules miss boolean SQL injection, wrote and validated a custom rule |
 | [Network IDS with Suricata](cybersecurity/ids-suricata/) | IDS on LAN and Docker interfaces, alert analysis |
 | [Incident response reports](cybersecurity/incident-response/) | Five investigations: evidence, root cause, remediation |
 | [Production platform case studies](development/) | Architecture and ownership of a real fintech system (NDA-safe, no source code) |
