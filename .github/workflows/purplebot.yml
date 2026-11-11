@@ -1,0 +1,31 @@
+name: purplebot
+
+on:
+  push:
+    paths:
+      - "cybersecurity/purplebot/**"
+      - ".github/workflows/purplebot.yml"
+  pull_request:
+    paths:
+      - "cybersecurity/purplebot/**"
+      - ".github/workflows/purplebot.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cybersecurity/purplebot
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt pytest ruff
+      - name: Lint (incl. bandit security rules)
+        run: ruff check .
+      - name: Tests
+        run: pytest -q

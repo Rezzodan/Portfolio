@@ -18,7 +18,7 @@ clear
 echo -e "${BLUE}"
 echo "============================================================"
 echo "   🛡️  Purple Team Bot — SSH Attack Monitor"
-echo "   Automated Installer v1.1"
+echo "   Automated Installer v2.0"
 echo "============================================================"
 echo -e "${NC}"
 
@@ -62,7 +62,7 @@ fi
 # ===== INSTALL DEPENDENCIES =====
 echo -e "${YELLOW}[*] Installing dependencies...${NC}"
 "$PROJECT_DIR/.venv/bin/pip" install --upgrade pip --quiet
-"$PROJECT_DIR/.venv/bin/pip" install requests --quiet
+"$PROJECT_DIR/.venv/bin/pip" install -r "$PROJECT_DIR/requirements.txt" --quiet
 echo -e "${GREEN}[+] Dependencies installed${NC}"
 
 # ===== TELEGRAM SETUP =====
@@ -79,7 +79,8 @@ echo ""
 read -p "Press ENTER to continue..."
 
 echo ""
-read -p "Enter your Telegram BOT TOKEN: " TELEGRAM_TOKEN
+read -s -p "Enter your Telegram BOT TOKEN (input hidden): " TELEGRAM_TOKEN
+echo ""
 if [ -z "$TELEGRAM_TOKEN" ]; then
     echo -e "${RED}[!] Token cannot be empty${NC}"
     exit 1
@@ -92,19 +93,35 @@ if [ -z "$TELEGRAM_CHAT_ID" ]; then
     exit 1
 fi
 
-# ===== UPDATE ssh_monitor.py =====
-echo -e "${YELLOW}[*] Configuring ssh_monitor.py...${NC}"
-MONITOR_SCRIPT="$PROJECT_DIR/ssh_monitor.py"
+# ===== MONITOR SETTINGS =====
+echo ""
+read -p "Auth log to monitor [/var/log/auth.log]: " LOG_SOURCE
+LOG_SOURCE="${LOG_SOURCE:-/var/log/auth.log}"
+if [ ! -f "$LOG_SOURCE" ]; then
+    echo -e "${YELLOW}[!] $LOG_SOURCE not found. On systems without rsyslog: sudo apt install rsyslog${NC}"
+fi
 
-if [ ! -f "$MONITOR_SCRIPT" ]; then
-    echo -e "${RED}[!] ssh_monitor.py not found in $PROJECT_DIR${NC}"
+read -p "Alert threshold, failed attempts per source [5]: " THRESHOLD
+THRESHOLD="${THRESHOLD:-5}"
+if ! [[ "$THRESHOLD" =~ ^[0-9]+$ ]]; then
+    echo -e "${RED}[!] Threshold must be a number${NC}"
     exit 1
 fi
 
-sed -i "s|^TELEGRAM_TOKEN = .*|TELEGRAM_TOKEN = \"$TELEGRAM_TOKEN\"|" "$MONITOR_SCRIPT"
-sed -i "s|^TELEGRAM_CHAT_ID = .*|TELEGRAM_CHAT_ID = \"$TELEGRAM_CHAT_ID\"|" "$MONITOR_SCRIPT"
-
-echo -e "${GREEN}[+] ssh_monitor.py configured${NC}"
+# ===== WRITE .env =====
+echo -e "${YELLOW}[*] Writing configuration to .env...${NC}"
+ENV_FILE="$PROJECT_DIR/.env"
+(
+    umask 077
+    cat > "$ENV_FILE" << EOF
+TELEGRAM_TOKEN=$TELEGRAM_TOKEN
+TELEGRAM_CHAT_ID=$TELEGRAM_CHAT_ID
+LOG_FILE=$LOG_SOURCE
+THRESHOLD=$THRESHOLD
+EOF
+)
+chmod 600 "$ENV_FILE"
+echo -e "${GREEN}[+] Saved $ENV_FILE (readable by owner only)${NC}"
 
 # ===== CREATE WRAPPER SCRIPT =====
 echo -e "${YELLOW}[*] Creating wrapper script...${NC}"
@@ -183,19 +200,9 @@ echo -e "${GREEN}[+] Cron job added: $CRON_DESC${NC}"
 # ===== TEST TELEGRAM =====
 echo ""
 echo -e "${YELLOW}[*] Testing Telegram connection...${NC}"
-"$PROJECT_DIR/.venv/bin/python3" -c "
-import requests
-url = 'https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage'
-data = {'chat_id': '${TELEGRAM_CHAT_ID}', 'text': '✅ Purple Team Bot installed successfully!'}
-try:
-    r = requests.post(url, data=data, timeout=10)
-    if r.status_code == 200:
-        print('[+] Test message sent to Telegram')
-    else:
-        print(f'[!] Telegram error: {r.status_code}')
-except Exception as e:
-    print(f'[!] Error: {e}')
-"
+if ! "$PROJECT_DIR/.venv/bin/python3" "$PROJECT_DIR/send_test_message.py"; then
+    echo -e "${YELLOW}[!] Test message failed — check the token and chat id in $ENV_FILE${NC}"
+fi
 
 # ===== FIRST RUN =====
 echo ""
@@ -211,7 +218,7 @@ echo -e "${GREEN}============================================================${N
 echo ""
 echo "What's next:"
 echo "  📄 Logs:        $PROJECT_DIR/monitor.log"
-echo "  ⚙️  Config:      $PROJECT_DIR/ssh_monitor.py"
+echo "  ⚙️  Config:      $ENV_FILE"
 echo "  🔧 Cron:        sudo crontab -l"
 echo "  🧪 Manual run:  sudo $WRAPPER"
 echo ""
