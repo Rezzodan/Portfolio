@@ -57,3 +57,8 @@ Through this project, I gained hands-on experience with:
 - Writing a professional incident report suitable for stakeholders.
 
 *This project is for educational and portfolio purposes only.*
+
+## Files
+
+- [`incident-report.pdf`](incident-report.pdf) — full incident report
+- [`traffic.png`](traffic.png) — tcpdump output used in the analysis

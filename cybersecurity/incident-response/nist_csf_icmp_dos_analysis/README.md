@@ -13,3 +13,7 @@ This project demonstrates the application of the **NIST Cybersecurity Framework 
 ## 🛠️ Key Takeaways
 - Learned how to map a real-world security incident to the 5 core functions of the NIST CSF.
 - Developed a comprehensive plan to improve network security posture against future DoS attacks.
+
+## Files
+
+- [`incident-report.pdf`](incident-report.pdf) — full report structured by the NIST CSF functions

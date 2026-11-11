@@ -1,59 +1,75 @@
+# FTP Traffic Capture — Plaintext Credentials
+
 ## Objective
-Capture FTP traffic to see how insecure protocols transmit passwords in plaintext.
 
-## Tools
-- QEMU + Metasploitable 2
-- tcpdump / Wireshark
-- FTP
+Capture FTP traffic in an isolated lab and show why legacy cleartext protocols are a risk: anyone on the network
+path can read the credentials.
 
-## Process
+## Lab setup
 
-### 1. Start VM with port forwarding
-```bash
-qemu-system-x86_64 -m 512 -accel tcg \
-  -netdev user,id=net0,hostfwd=tcp::2223-:22,hostfwd=tcp::2121-:21 \
-  -device e1000,netdev=net0 \
-  -drive file="Metasploitable.vmdk",format=vmdk
-```
+- Kali Linux (analyst machine)
+- Metasploitable 2 in QEMU (target, `vsftpd 2.3.4`)
+- tcpdump, Wireshark
 
-### 2. Start packet capture (on Metasploitable)
-```bash
-sudo tcpdump -i eth0 -s 0 -w /tmp/ftp_capture.pcap
-```
+## Steps
 
-### 3. Connect via FTP (from Kali)
-```bash
-ftp localhost 2121
-# Login: msfadmin
-# Password: msfadmin
-```
+1. Start the target VM with FTP and SSH forwarded to the host:
 
-### 4. Transfer capture to Kali
-```bash
-scp -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa -P 2223 msfadmin@localhost:/tmp/ftp_capture.pcap ~/
-```
+   ```bash
+   qemu-system-x86_64 -m 512 -accel tcg \
+     -netdev user,id=net0,hostfwd=tcp::2223-:22,hostfwd=tcp::2121-:21 \
+     -device e1000,netdev=net0 \
+     -drive file="Metasploitable.vmdk",format=vmdk
+   ```
 
-### 5. Analyze in Wireshark
-```bash
-wireshark ~/ftp_capture.pcap
-```
-Filter: `tcp.port == 21` → Follow → TCP Stream
+2. Capture traffic on the target:
+
+   ```bash
+   sudo tcpdump -i eth0 -s 0 -w /tmp/ftp_capture.pcap
+   ```
+
+3. Log in over FTP from Kali (default lab account `msfadmin`):
+
+   ```bash
+   ftp localhost 2121
+   ```
+
+4. Copy the capture to Kali and open it in Wireshark:
+
+   ```bash
+   scp -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa \
+     -P 2223 msfadmin@localhost:/tmp/ftp_capture.pcap ~/
+   wireshark ~/ftp_capture.pcap
+   ```
+
+5. Filter `tcp.port == 21`, then **Follow → TCP Stream**.
 
 ## Result
 
-Captured FTP credentials in plaintext:
+The FTP control channel carries the username and password in cleartext:
 
-```
+```text
+220 (vsFTPd 2.3.4)
 USER msfadmin
+331 Please specify the password.
 PASS msfadmin
+230 Login successful.
 ```
 
-## Screenshot
-![FTP password in plaintext](wireshark_ftp.png)
+![Wireshark TCP stream with USER and PASS in cleartext](wireshark-tcp-stream.jpg)
 
-## Key Takeaway
-FTP transmits passwords in **plaintext**. Anyone on the same network can intercept them. Always use SFTP or SSH for secure file transfer.
+![Packet list for the FTP session](wireshark-packets.jpg)
+
+## Detection and mitigation
+
+| Risk | Mitigation |
+|------|------------|
+| Credentials readable on the wire | Replace FTP with SFTP or FTPS |
+| Legacy service exposed | Disable FTP where not needed, restrict by firewall |
+| Credential reuse | Unique passwords, MFA on remote access |
+| No visibility | Alert on cleartext auth protocols (IDS rules for FTP `USER`/`PASS`) |
 
 ## Files
-- `ftp_capture.pcap` — raw network capture
-- `wireshark_ftp.png` — screenshot of captured password
+
+- [`ftp_capture.pcap`](ftp_capture.pcap) — raw capture (lab traffic only)
+- [`wireshark-tcp-stream.jpg`](wireshark-tcp-stream.jpg), [`wireshark-packets.jpg`](wireshark-packets.jpg) — screenshots

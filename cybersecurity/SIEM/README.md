@@ -1,55 +1,63 @@
-## SIEM with Wazuh + DVWA Attack Detection
+# SIEM with Wazuh — Detecting Web Attacks on DVWA
 
-## 🎯 Objective
-Deploy Wazuh SIEM, connect a Wazuh agent, and detect web attacks (SQL Injection, XSS) against DVWA in real time.
+## Objective
 
-## 🛠️ Lab Setup
-- **Wazuh v4.10.0** (Docker: manager, indexer, dashboard)
-- **DVWA** (Docker, port 8080)
-- **Kali Linux** (Wazuh agent v4.9.0)
-- **Docker Root Dir:** `/mnt/data/docker` (HDD)
+Deploy Wazuh SIEM, ship web server logs from a vulnerable test application (DVWA) through a Wazuh agent, and detect
+web attacks (XSS, SQL injection) in near real time.
 
-## 📋 Architecture
+## Lab setup
 
-┌──────────────┐ ┌──────────────┐ ┌──────────────┐
-│ DVWA │────▶│ Wazuh Agent │────▶│ Wazuh │
-│ (Docker) │ │ (Kali) │ │ Manager │
-└──────────────┘ └──────────────┘ └──────┬───────┘
-│
-┌──────▼───────┐
-│ Wazuh │
-│ Indexer │
-└──────┬───────┘
-│
-┌──────▼───────┐
-│ Dashboard │
-└──────────────┘
+- Wazuh 4.10.0 single-node in Docker (manager, indexer, dashboard)
+- Wazuh agent 4.9.0 on Kali Linux
+- DVWA in Docker on port 8080, Apache access logs mounted to the host
 
-## 🚀 Installation
+```text
+┌──────────────┐   access.log   ┌──────────────┐   1514/tcp   ┌──────────────┐
+│ DVWA         │ ─────────────▶ │ Wazuh agent  │ ───────────▶ │ Wazuh        │
+│ (Docker)     │   (volume)     │ (Kali)       │              │ manager      │
+└──────────────┘                └──────────────┘              └──────┬───────┘
+                                                                     │
+                                                              ┌──────▼───────┐
+                                                              │ Indexer +    │
+                                                              │ Dashboard    │
+                                                              └──────────────┘
+```
 
-### 1. Wazuh Docker Setup
+## Setup
+
+### 1. Wazuh stack
+
 ```bash
 git clone https://github.com/wazuh/wazuh-docker.git -b v4.10.0
 cd wazuh-docker/single-node
 docker compose -f generate-indexer-certs.yml run --rm generator
 docker compose up -d
+```
 
-### 2. Configure Passwords
+Default passwords were changed before first use: `INDEXER_PASSWORD` and `API_PASSWORD` in `docker-compose.yml`,
+user hashes in `config/wazuh_indexer/internal_users.yml`, and the API password in
+`config/wazuh_dashboard/wazuh.yml`.
 
-    docker-compose.yml: set INDEXER_PASSWORD, API_PASSWORD
+### 2. DVWA with logs on a host volume
 
-    config/wazuh_indexer/internal_users.yml: set admin and wazuh-wui hashes
+```bash
+docker run -d -p 8080:80 --name dvwa \
+  -v /mnt/data/dvwa-logs:/var/log/apache2 \
+  vulnerables/web-dvwa
+```
 
-    config/wazuh_dashboard/wazuh.yml: set API password
+### 3. Agent on Kali
 
-### 3. Wazuh Agent on Kali
+```bash
 curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | sudo gpg --dearmor -o /usr/share/keyrings/wazuh.gpg
-echo "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main" | sudo tee /etc/apt/sources.list.d/wazuh.list
-sudo apt update
-sudo apt install wazuh-agent -y
+echo "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main" \
+  | sudo tee /etc/apt/sources.list.d/wazuh.list
+sudo apt update && sudo apt install wazuh-agent -y
+```
 
-### 4. Agent Configuration (/var/ossec/etc/ossec.conf)
+`/var/ossec/etc/ossec.conf`:
 
+```xml
 <client>
   <server>
     <address>localhost</address>
@@ -62,79 +70,55 @@ sudo apt install wazuh-agent -y
   <log_format>apache</log_format>
   <location>/mnt/data/dvwa-logs/access.log</location>
 </localfile>
+```
 
-### 5. DVWA with Log Volume
+## Test traffic
 
-docker run -d -p 8080:80 --name dvwa \
-  -v /mnt/data/dvwa-logs:/var/log/apache2 \
-  vulnerables/web-dvwa
+Payloads sent to DVWA (security level: low):
 
+```text
+SQL injection:   1' OR '1'='1
+Reflected XSS:   <script>alert('XSS')</script>
+                 <script>alert(document.cookie)</script>
+```
 
-### 🎮 Usage
-Access Dashboard
+## Results
 
-    URL: https://localhost:443
+Wazuh decoded the Apache logs (`web-accesslog`) and raised rule **31106** — *"A web attack returned code 200
+(success)"*, level 6, groups `web, accesslog, attack`. Code 200 matters: the request was not blocked, so the
+analyst should treat it as a likely successful attack, not just a probe.
 
-    Login: (your login)
+| Evidence | Payload | Rule | Files |
+|----------|---------|------|-------|
+| Reflected XSS | `<script>alert('XSS')</script>` | 31106, level 6 | [`xss-alert-basic.json`](xss-alert-basic.json), [`xss-alert-basic.png`](xss-alert-basic.png) |
+| Reflected XSS, cookie access | `<script>alert(document.cookie)</script>` | 31106, level 6 | [`xss-alert-cookie.json`](xss-alert-cookie.json), [`xss-alert-cookie.png`](xss-alert-cookie.png) |
 
-    Password: (your password)
+The dashboard showed 189 alerts in the last 24 hours (46 medium, 143 low). The SQL injection request was detected
+as well; its alert is not exported here yet.
 
-### Attack DVWA
-# SQL Injection
-1' OR '1'='1
+![Wazuh dashboard overview](dashboard.png)
 
-# XSS (Reflected)
-<script>alert('XSS')</script>
-<script>alert(document.cookie)</script>
+![Alert details for the cookie-stealing XSS payload](xss-alert-cookie.png)
 
-#📊 Results
+### Compliance tags from Wazuh rule metadata
 
-Wazuh Alert (XSS detected)
-rule.description: A web attack returned code 200 (success).
-rule.id: 31106
-rule.level: 6
-data.url: /vulnerabilities/xss_r/?name=%3Cscript%3Ealert%28document.cookie%29%3C%2Fscript%3E
-decoder.name: web-accesslog
-location: /mnt/data/dvwa-logs/access.log
+Wazuh attaches these tags to rule 31106 automatically: PCI DSS 6.5 and 11.4, NIST 800-53 SA.11 and SI.4,
+GDPR IV_35.7.d, TSC CC6.1 / CC6.6 / CC6.8 / CC7.1 – CC7.3 / CC8.1.
 
-###Dashboard Stats
-    Total alerts: 208
+## Triage notes
 
-    Rule.id 31106: Web attack
+1. **Is it real?** Payload is a known XSS pattern and the response code is 200 — the page reflected it.
+2. **Scope:** single source IP (`172.17.0.1`, the Docker bridge), one endpoint (`/vulnerabilities/xss_r/`).
+3. **Response in a real environment:** block or rate-limit the source, fix output encoding on the endpoint, add a
+   Content Security Policy, set `HttpOnly` on session cookies, and check for session reuse after the alert time.
 
-    XSS hits: 2
+## Key learnings
 
-    SQLi hits: 1
+- Container logs must be exposed through a volume for the agent to read them
+- `log_format` must be `apache` for the web attack rules to match
+- A status code in the alert changes priority: 200 means the attack reached the application
 
-### 🛡️ MITRE ATT&CK Mapping
-    rule.gdpr: IV_35.7.d
+## Related
 
-    rule.nist_800_53: SA.11, SI.4
-
-    rule.pci_dss: 6.5, 11.4
-
-    rule.tsc: CC6.6, CC7.1, CC8.1, CC6.1, CC6.8, CC7.2, CC7.3
-
-### 🔍 Key Learnings
-    Wazuh SIEM detects SQLi and XSS in real time
-
-    Docker logs must be exposed via volume for agent to read
-
-    log_format=apache is required for web attack detection
-
-    Rule.id 31106 — built-in rule for web attacks
-
-    Dashboard shows MITRE ATT&CK mapping for each alert
-
-### Files
-
-    docker-compose.yml — Wazuh stack
-
-    internal_users.yml — user hashes
-
-    wazuh.yml — Dashboard API config
-
-    ossec.conf — Agent config
-
-    screenshots/ — Dashboard screenshots
-
+- [How these attacks work and how to fix them](../web-vulns/)
+- [Network IDS with Suricata](../ids-suricata/)

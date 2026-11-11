@@ -56,6 +56,10 @@ The goal of this audit was to assess Botium Toys' existing security posture and 
 | **GDPR** | ⚠️ Partial | Privacy policies enforced and 72-hour breach notification in place, but data is not properly classified/inventoried |
 | **SOC 1 / SOC 2** | ⚠️ Partial | Data integrity and availability ensured, but access controls and confidentiality are missing |
 
+## 📄 Deliverable
+
+[Controls and compliance checklist (PDF)](botium-toys-controls-compliance-checklist-EN.pdf)
+
 ## 🛠️ Skills Demonstrated
 
 - **Security Auditing** — Conducted an internal audit using NIST CSF
@@ -100,12 +104,12 @@ This project was completed as part of the **Google Cybersecurity Professional Ce
 - [Python SSH Monitor + Telegram](../purplebot/)
 - [Web Vulnerabilities (SQLi, XSS)](../web-vulns/)
 - [SIEM with Wazuh + DVWA](../SIEM/)
-- [IDS/IPS with Suricata](../suricata/) *(in progress)*
+- [Network IDS with Suricata](../ids-suricata/)
 
 ## 📬 Contact
 
 **Danil (Rezzodan)**
-- GitHub: [https://github.com/Rezzodan/Portfolio](https://github.com/Rezzodan/Portfolio)
+- GitHub: [Rezzodan/Portfolio](https://github.com/Rezzodan/Portfolio)
 - Telegram: [@rezzodan](https://t.me/rezzodan)
 - Email: malooyy6@gmail.com
 

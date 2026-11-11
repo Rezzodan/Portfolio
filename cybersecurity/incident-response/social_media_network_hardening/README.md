@@ -11,3 +11,8 @@ This report analyzes four critical vulnerabilities identified in a social media 
 ## 📊 Key Outcomes
 - Addressed vulnerabilities related to weak authentication and missing firewall rules.
 - Provided a timeline for implementing and maintaining each security control.
+
+## Files
+
+- [`risk-assessment-report.pdf`](risk-assessment-report.pdf) — security risk assessment
+- [`network-hardening-tools.pdf`](network-hardening-tools.pdf) — comparison of hardening tools and methods
