@@ -21,7 +21,7 @@ Understand how SQL Injection and XSS work by exploiting DVWA (Damn Vulnerable We
 - Query becomes: `SELECT * FROM users WHERE id = '1' OR '1'='1'`
 - `'1'='1'` is always true → all rows returned
 
-![Authentication Bypass](sqli/01-auth-bypass.png)
+![Authentication Bypass](sqli/01-auth-bypass.jpg)
 
 ### Test 3: UNION-based (Extract Passwords)
 **Input:** `1' UNION SELECT user, password FROM users-- `
@@ -31,7 +31,7 @@ Understand how SQL Injection and XSS work by exploiting DVWA (Damn Vulnerable We
 - `UNION` combines two queries
 - `-- ` (with space!) comments out the rest
 
-![UNION Passwords](sqli/02-union-passwords.png)
+![UNION Passwords](sqli/02-union-passwords.jpg)
 
 ## 🔴 XSS (Reflected)
 
@@ -43,7 +43,7 @@ Understand how SQL Injection and XSS work by exploiting DVWA (Damn Vulnerable We
 - Site inserts input into HTML without encoding
 - Browser executes the script
 
-![XSS Cookie Theft](xss/01-cookie-theft.png)
+![XSS Cookie Theft](xss/01-cookie-theft.jpg)
 
 ## 🛡️ Defense (Blue Team)
 
@@ -66,7 +66,8 @@ Understand how SQL Injection and XSS work by exploiting DVWA (Damn Vulnerable We
 - Both SQLi and XSS are in **OWASP Top 10**
 
 ## 🔗 Related
-- [Portfolio](https://github.com/Rezzodan/purple-team-lab)
+- [Detecting these attacks with Wazuh SIEM](../SIEM/)
+- [Cybersecurity labs overview](../)
 
 ---
 

@@ -35,3 +35,9 @@ The Wireshark log showed:
 2. **Rate limiting** on the firewall to block IPs sending excessive SYN requests.
 3. **Deploy a WAF (Web Application Firewall)** or DDoS protection service.
 4. **Blackhole routing** for the attacking IP (as a temporary mitigation).
+
+## Files
+
+- [`incident-report.pdf`](incident-report.pdf) — full incident report
+- [`wireshark-tcp-http-log.pdf`](wireshark-tcp-http-log.pdf) — Wireshark TCP/HTTP log
+- [`wireshark-log-table.pdf`](wireshark-log-table.pdf) — the same log as a table
