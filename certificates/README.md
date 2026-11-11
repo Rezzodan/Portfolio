@@ -1,64 +1,29 @@
 # Certifications
 
-## ✅ Completed
+## Google Cybersecurity Professional Certificate — Coursera
 
-### C Programming Fundamentals — Stepik
-**Completed:** November 21, 2025
-**Result:** 82%
-**Topics:** C · Algorithms · Problem-Solving · Data Structures
-**Link:** https://stepik.org/cert/3036351
+**Status:** in progress — 3 of 8 courses completed, course 4 underway.
 
-![C Certificate](c-programming-stepik.png)
+| # | Course | Status | Key skills |
+|---|--------|--------|------------|
+| 1 | Foundations of Cybersecurity | ✅ [Certificate](google-cybersecurity/1-foundations-of-cybersecurity.pdf) | CISSP security domains, NIST CSF, ethics, incident response basics |
+| 2 | Play It Safe: Manage Security Risks | ✅ [Certificate](google-cybersecurity/2-play-it-safe-manage-security-risks.pdf) | Risk management, frameworks and controls, SIEM tools, playbooks |
+| 3 | Connect and Protect: Networks and Network Security | ✅ [Certificate](google-cybersecurity/3-connect-and-protect-networks.pdf) | TCP/IP, network attacks (DoS, SYN / ICMP flood), OS and network hardening |
+| 4 | Tools of the Trade: Linux and SQL | 🟡 In progress | Bash, file permissions, SQL queries for security data |
+| 5–8 | Assets & threats · Detection & response · Python automation · Job readiness | ⏳ Planned | |
 
----
+Practical work from these courses: [incident reports](../cybersecurity/incident-response/) and the
+[Botium Toys security audit](../cybersecurity/audit/).
 
-### Purple Team Security Course — Self-Study
-**Completed:** 2026
-**Topics:** QEMU · Nmap · Wireshark · DVWA · Wazuh SIEM · MITRE ATT&CK
+## C Programming Fundamentals — Stepik
 
----
+**Completed:** November 21, 2025 · **Result:** 82% · [Verify](https://stepik.org/cert/3036351)
 
-## 🔄 In Progress
+Topics: C, algorithms, data structures, problem solving.
 
-### Google Cybersecurity Certificate — Coursera
-**Started:** 2026
-**Topics:** Python · SQL · Linux · SIEM · IDS/IPS · Threat Analysis · Incident Response
-**Expected completion:** 2026
+<img src="c-programming-stepik.jpg" alt="Stepik C programming certificate" width="480">
 
-This directory contains the course certificates I have earned as part of the **Google Cybersecurity Professional Certificate** on Coursera.
+## Self-directed practice
 
-## Completed Courses:
-*   ✅ **Course 1: Foundations of Cybersecurity**
-    *   [View Certificate](./1-foundations-of-cybersecurity.pdf)
-    *   *Key skills: CISSP domains, NIST CSF, security ethics, incident response.*
-*   ✅ **Course 2: Play It Safe: Manage Security Risks**
-    *   [View Certificate](./2-play-it-safe-manage-security-risks.pdf)
-    *   *Key skills: Risk management, security frameworks, SIEM tools, incident playbooks.*
-
-*   ✅ Course 3: Connect and Protect: Networks and Network Security
-*   **[View Certificate](./3-connect-and-protect-networks-and-network-security.pdf)**
-*   **Key Skills Acquired:**
-    *   Deep understanding of the TCP/IP model and network architecture.
-    *   Analyzing and mitigating network attacks (DoS, SYN Flood, ICMP Flood).
-    *   Operating System (OS) hardening (patch management, least privilege, MFA).
-    *   Network hardening (firewall maintenance, port filtering, segmentation).
-    *   Cloud security fundamentals and secure protocols.
-
-
-## 🚀 Currently Learning
-
-### 🟡 Course 4: Tools of the Trade: Linux and SQL
-*   **Key Topics Being Covered:**
-    *   Navigating the Linux file system using the command line (Bash).
-    *   Managing file permissions and user access.
-    *   Querying relational databases using SQL (filtering, joining tables).
-    *   Analyzing security data using Linux and SQL
-
-
----
-
-## 📬 Contact
-
-- **GitHub:** [Rezzodan](https://github.com/Rezzodan)
-- **Telegram:** [@rezzodan](https://t.me/rezzodan)
-- **Email:** malooyy6@gmail.com
+A home-lab program covering QEMU, Nmap, Wireshark, DVWA, Wazuh SIEM and Suricata. No certificate — the results are
+documented as [hands-on labs](../cybersecurity/).

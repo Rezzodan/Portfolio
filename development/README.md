@@ -1,6 +1,6 @@
 # 💻 Development Portfolio
 
-Full-stack work on a **commercial fintech / credit-consulting platform** (~2 years): client apps, core API, CRM integrations, lawyer tools, partner commissions, and self-hosted production infrastructure.
+Full-stack work on a **commercial fintech / credit-consulting platform** (2.5+ years): client apps, core API, CRM integrations, lawyer tools, partner commissions, and self-hosted production infrastructure.
 
 > **Confidentiality:** Source code, secrets, env files, webhooks, and client data are **not** published (NDA / production safety).  
 > This folder contains **case studies**, architecture overview, and **public login-screen** screenshots only.
