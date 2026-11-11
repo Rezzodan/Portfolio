@@ -1,0 +1,5 @@
+172.17.0.1 - - [11/Nov/2026:12:00:00 +0000] "GET /search?q=o%27reilly+books HTTP/1.1" 200 1500 "-" "Mozilla/5.0"
+172.17.0.1 - - [11/Nov/2026:12:00:00 +0000] "GET /blog/?title=don%27t+stop+me+now HTTP/1.1" 200 1500 "-" "Mozilla/5.0"
+172.17.0.1 - - [11/Nov/2026:12:00:00 +0000] "GET /shop?brand=rock%27n%27roll&size=m HTTP/1.1" 200 1500 "-" "Mozilla/5.0"
+172.17.0.1 - - [11/Nov/2026:12:00:00 +0000] "GET /people?name=O%27Brien+and+Smith HTTP/1.1" 200 1500 "-" "Mozilla/5.0"
+172.17.0.1 - - [11/Nov/2026:12:00:00 +0000] "GET /api?filter=status%3Dactive+and+type%3Dorder HTTP/1.1" 200 1500 "-" "Mozilla/5.0"

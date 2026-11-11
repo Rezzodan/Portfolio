@@ -20,3 +20,6 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+
+# Evidence logs for the SIEM detection-gap lab
+!cybersecurity/SIEM/detection-gap/*.log

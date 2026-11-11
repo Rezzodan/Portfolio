@@ -10,7 +10,7 @@ Suricata IDS on the host. All offensive testing targeted only these lab machines
 
 | Project | What it shows |
 |---------|---------------|
-| [SIEM with Wazuh](SIEM/) | Log shipping from a web app, detection of XSS / SQL injection attempts, alert triage |
+| [SIEM with Wazuh](SIEM/) | Web-log shipping, XSS alert triage, a gap in default rules for SQL injection closed with a custom rule tested in `wazuh-logtest` |
 | [Network IDS with Suricata](ids-suricata/) | IDS on LAN and Docker interfaces, alert analysis and tuning decision |
 | [SSH brute-force monitor](purplebot/) | Python log parser with thresholds, GeoIP enrichment, Telegram alerts, tests and CI |
 
