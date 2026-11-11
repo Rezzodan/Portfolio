@@ -6,6 +6,8 @@ HMAC-signed callbacks, PII masking in logs, and handling production incidents on
 
 📍 Vietnam (UTC+7) · open to remote · [Telegram](https://t.me/rezzodan) · malooyy6@gmail.com
 
+🇷🇺 [Версия на русском](https://github.com/Rezzodan/Portfolio/tree/ru)
+
 ## Resume
 
 | Role | PDF |
