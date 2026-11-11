@@ -1,26 +1,26 @@
-# Brute Force → Malicious Redirect — Incident Report
+# Брутфорс (перебор паролей) → вредоносное перенаправление — отчёт об инциденте
 
-Completed as part of the **Google Cybersecurity Professional Certificate**. The company and domains are fictional.
+Выполнено в рамках **Google Cybersecurity Professional Certificate**. Компания и домены вымышлены.
 
-## Summary
+## Краткое описание
 
-| Item | Details |
+| Параметр | Подробности |
 |------|---------|
-| Affected site | `yummyrecipesforme.com` (`203.0.113.22`) |
-| Malicious site | `greatrecipesforme.com` (`192.0.2.172`) |
-| Initial access | Brute force of the admin panel — the account still used a default password |
-| Impact | Injected JavaScript prompted visitors to download and run a file that redirected them to the malicious site; the owner was locked out after the attacker changed the admin password |
-| Protocols | DNS, HTTP |
+| Пострадавший сайт | `yummyrecipesforme.com` (`203.0.113.22`) |
+| Вредоносный сайт | `greatrecipesforme.com` (`192.0.2.172`) |
+| Первоначальный доступ | Брутфорс панели администратора — учётная запись всё ещё использовала пароль по умолчанию |
+| Последствия | Внедрённый JavaScript предлагал посетителям скачать и запустить файл, который перенаправлял их на вредоносный сайт; владелец лишился доступа после того, как злоумышленник сменил пароль администратора |
+| Протоколы | DNS, HTTP |
 
-## How it was discovered
+## Как инцидент был обнаружен
 
-Customers contacted the help desk: the site asked them to download a file for "free recipes", after which their
-browser opened a different website and their computers slowed down.
+Клиенты обратились в службу поддержки: сайт предлагал им скачать файл ради «бесплатных рецептов», после чего в
+браузере открывался другой сайт, а компьютеры начинали работать медленнее.
 
-## Investigation
+## Расследование
 
-The site was visited from a sandbox while `tcpdump` captured traffic. Key lines from the
-[capture](tcpdump-log.pdf):
+Сайт открыли из песочницы, параллельно записывая трафик с помощью `tcpdump`. Ключевые строки из
+[дампа трафика](tcpdump-log.pdf):
 
 ```text
 14:18:32  your.machine > dns.google.domain   A? yummyrecipesforme.com.   → A 203.0.113.22
@@ -30,24 +30,24 @@ The site was visited from a sandbox while `tcpdump` captured traffic. Key lines 
 14:25:29  your.machine > greatrecipesforme.com.http   new HTTP session to the malicious host
 ```
 
-1. DNS resolves the legitimate site and the browser loads it over HTTP.
-2. After the downloaded file runs, a **second DNS lookup** appears for a lookalike domain the user never typed.
-3. The browser then opens an HTTP session to the malicious IP — the redirect.
+1. DNS разрешает имя легитимного сайта, и браузер загружает его по HTTP.
+2. После запуска скачанного файла появляется **второй DNS-запрос** — к похожему (поддельному) домену, который пользователь не вводил.
+3. Затем браузер открывает HTTP-сессию с вредоносным IP-адресом — это и есть перенаправление.
 
-A senior analyst confirmed the compromise by finding injected JavaScript in the site's source code.
+Старший аналитик подтвердил компрометацию, обнаружив внедрённый JavaScript в исходном коде сайта.
 
-## Root cause
+## Первопричина
 
-A default password on the administrative account, with no lockout policy or MFA to slow down brute force.
+Пароль по умолчанию на учётной записи администратора при отсутствии политики блокировки и многофакторной аутентификации (MFA), которые замедлили бы брутфорс.
 
-## Recommendations
+## Рекомендации
 
-1. **MFA for all administrative accounts** — a guessed password alone no longer grants access.
-2. **Account lockout and rate limiting** on the login page after repeated failures.
-3. **Remove default credentials** and enforce a strong password policy.
-4. **Integrity monitoring** of website source files to detect injected scripts quickly.
+1. **MFA для всех административных учётных записей** — одного подобранного пароля уже будет недостаточно для доступа.
+2. **Блокировка учётной записи и ограничение частоты запросов (rate limiting)** на странице входа после нескольких неудачных попыток.
+3. **Удалить учётные данные по умолчанию** и ввести строгую парольную политику.
+4. **Мониторинг целостности** исходных файлов сайта, чтобы быстро обнаруживать внедрённые скрипты.
 
-## Files
+## Файлы
 
-- [`incident-report.pdf`](incident-report.pdf) — full incident report
-- [`tcpdump-log.pdf`](tcpdump-log.pdf) — annotated tcpdump capture
+- [`incident-report.pdf`](incident-report.pdf) — полный отчёт об инциденте
+- [`tcpdump-log.pdf`](tcpdump-log.pdf) — дамп трафика tcpdump с пояснениями

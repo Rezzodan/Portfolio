@@ -1,44 +1,45 @@
-# Danil Grantsev — Security-minded Full-Stack Developer
+# Данил Гранцев — Full-Stack-разработчик с фокусом на безопасность
 
-Moving into **Application Security and SOC** after 2.5+ years building and running a production fintech platform:
-7 services on ASP.NET Core, Python and React behind Docker and Traefik. Security was part of the job — JWT auth,
-HMAC-signed callbacks, PII masking in logs, and handling production incidents on a self-hosted server.
+Перехожу в **безопасность приложений (Application Security) и SOC** после более чем 2,5 лет разработки и сопровождения
+продакшн-финтех-платформы: 7 сервисов на ASP.NET Core, Python и React в Docker за Traefik. Безопасность была частью
+работы — JWT-аутентификация, callback-запросы с HMAC-подписью, маскирование персональных данных (PII) в логах и
+обработка инцидентов в продакшене на собственном (self-hosted) сервере.
 
-📍 Vietnam (UTC+7) · open to remote · [Telegram](https://t.me/rezzodan) · malooyy6@gmail.com
+📍 Вьетнам (UTC+7) · готов к удалённой работе · [Telegram](https://t.me/rezzodan) · malooyy6@gmail.com
 
-🇷🇺 [Версия на русском](https://github.com/Rezzodan/Portfolio/tree/ru)
+🇬🇧 [English version](https://github.com/Rezzodan/Portfolio)
 
-## Resume
+## Резюме
 
-| Role | PDF |
-|------|-----|
-| Junior Security Analyst (SOC L1) | [Download](resume/Danil-Grantsev-soc-analyst.pdf) |
-| Junior Application Security / DevSecOps | [Download](resume/Danil-Grantsev-appsec.pdf) |
-| Full-Stack Developer (.NET / Python / React) | [Download](resume/Danil-Grantsev-fullstack.pdf) |
+| Роль | На русском | English |
+|------|------------|---------|
+| Junior-аналитик по безопасности (SOC L1) | [PDF](resume/Danil-Grantsev-soc-analyst-ru.pdf) | [PDF](resume/Danil-Grantsev-soc-analyst.pdf) |
+| Junior-специалист по Application Security / DevSecOps | [PDF](resume/Danil-Grantsev-appsec-ru.pdf) | [PDF](resume/Danil-Grantsev-appsec.pdf) |
+| Full-Stack-разработчик (.NET / Python / React) | [PDF](resume/Danil-Grantsev-fullstack-ru.pdf) | [PDF](resume/Danil-Grantsev-fullstack.pdf) |
 
-## Highlights
+## Ключевые проекты
 
-| Project | Why it matters |
+| Проект | Почему это важно |
 |---------|----------------|
-| [SSH brute-force monitor](cybersecurity/purplebot/) | Detection tool in Python with a threat-aware design, 12 tests and CI with security linting |
-| [SIEM with Wazuh](cybersecurity/SIEM/) | Web-attack detection from DVWA logs, alert triage |
-| [Network IDS with Suricata](cybersecurity/ids-suricata/) | IDS on LAN and Docker interfaces, alert analysis |
-| [Incident response reports](cybersecurity/incident-response/) | Five investigations: evidence, root cause, remediation |
-| [Production platform case studies](development/) | Architecture and ownership of a real fintech system (NDA-safe, no source code) |
+| [Монитор SSH-брутфорса (перебора паролей)](cybersecurity/purplebot/) | Инструмент обнаружения на Python, спроектированный с учётом угроз, 12 тестов и CI с линтингом безопасности |
+| [SIEM на Wazuh](cybersecurity/SIEM/) | Обнаружение веб-атак по логам DVWA, разбор (триаж) алертов |
+| [Сетевая IDS на Suricata](cybersecurity/ids-suricata/) | IDS на интерфейсах LAN и Docker, анализ алертов |
+| [Отчёты о реагировании на инциденты](cybersecurity/incident-response/) | Пять расследований: доказательства, первопричина, меры по устранению |
+| [Кейсы продакшн-платформы](development/) | Архитектура реальной финтех-системы и ответственность за неё (ownership) — в рамках NDA, без исходного кода |
 
-## Repository
+## Репозиторий
 
-| Folder | Contents |
+| Папка | Содержимое |
 |--------|----------|
-| [`cybersecurity/`](cybersecurity/) | Home-lab projects: detection and monitoring, incident response, audit, attack analysis |
-| [`development/`](development/) | Case studies of the production platform: core API, mini apps, CRM, partner program, infra |
-| [`certificates/`](certificates/) | Google Cybersecurity Certificate (in progress), Stepik C |
-| [`resume/`](resume/) | Resumes for each target role |
+| [`cybersecurity/`](cybersecurity/) | Проекты домашней лаборатории: обнаружение и мониторинг, реагирование на инциденты, аудит, анализ атак |
+| [`development/`](development/) | Кейсы продакшн-платформы: основной API, мини-приложения, CRM, партнёрская программа, инфраструктура |
+| [`certificates/`](certificates/) | Google Cybersecurity Certificate (в процессе), курс по C на Stepik |
+| [`resume/`](resume/) | Резюме под каждую целевую роль |
 
-## Stack
+## Стек
 
-**Security:** Wazuh · Suricata · Wireshark · tcpdump · Nmap · OWASP Top 10 · NIST CSF · incident reporting
+**Безопасность:** Wazuh · Suricata · Wireshark · tcpdump · Nmap · OWASP Top 10 · NIST CSF · составление отчётов об инцидентах
 
-**Development:** C# / ASP.NET Core · Python (FastAPI, Django) · React / TypeScript · React Native · PostgreSQL
+**Разработка:** C# / ASP.NET Core · Python (FastAPI, Django) · React / TypeScript · React Native · PostgreSQL
 
-**Infrastructure:** Linux · Docker · Traefik · Postfix / DNS · GitHub Actions · Bash
+**Инфраструктура:** Linux · Docker · Traefik · Postfix / DNS · GitHub Actions · Bash

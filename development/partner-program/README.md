@@ -1,40 +1,40 @@
-# Partner Program (PRM)
+# Партнёрская программа (PRM)
 
-![Cover](./assets/cover.png)
-## Screenshots
+![Обложка](./assets/cover.png)
+## Скриншоты
 
-![Partner login](./assets/ui-login.png)
+![Вход для партнёра](./assets/ui-login.png)
 
-![Partner registration](./assets/ui-register.png)
+![Регистрация партнёра](./assets/ui-register.png)
 
-Public partner auth & onboarding step 1 (profile type).
+Публичная авторизация партнёров и шаг 1 онбординга (тип профиля).
 
-**Role:** Full-stack  
-**Status:** Production  
-**Stack:** Django · DRF · JWT · React · TypeScript · PostgreSQL · CRM webhooks
+**Роль:** Full-stack  
+**Статус:** Продакшен  
+**Стек:** Django · DRF · JWT · React · TypeScript · PostgreSQL · вебхуки CRM
 
-## Overview
+## Обзор
 
-Partner registration, partner cabinet, admin offers, and commission accrual from CRM deal events.
+Регистрация партнёров, личный кабинет партнёра, офферы в админке и начисление комиссий по событиям сделок в CRM.
 
-## What I built
+## Что я сделал
 
-- Partner + admin portals (separate DB from the core product API)
-- Outgoing CRM webhooks for deal add/update → commission rules
-- Partner card sync in a dedicated CRM funnel
-- Attribution fields with fallbacks when payment forms write different CRM custom fields
+- Порталы для партнёров и администраторов (база данных отдельно от API основного продукта)
+- Исходящие вебхуки CRM на создание/обновление сделки → правила начисления комиссий
+- Синхронизация карточек партнёров в выделенной воронке CRM
+- Поля атрибуции с резервными вариантами (fallback) на случай, когда платёжные формы пишут в разные пользовательские поля CRM
 
-## Results
+## Результаты
 
-- Live partner portal with transparent reward logic
-- Commissions can accrue on configured stages — not only on “won”
+- Работающий партнёрский портал с прозрачной логикой вознаграждений
+- Комиссии могут начисляться на настроенных стадиях — не только при «успешном» закрытии сделки
 
-## Hard problem (most critical)
+## Сложная проблема (самая критичная)
 
-**Duplicate partner payouts on installment deals.**  
-After payment, deals returned from a service installment funnel into the main pipeline and re-triggered webhook accruals.  
-**Fix:** hard rules — **no accrual** on the installment service category; **no re-accrual** when returning to the main funnel; UF fallbacks so Tilda/payment attribution is not lost.
+**Дублирование выплат партнёрам по сделкам в рассрочку.**  
+После оплаты сделки возвращались из воронки сервиса рассрочки в основную воронку и повторно запускали начисления через вебхуки.  
+**Решение:** жёсткие правила — **никаких начислений** в категории сервиса рассрочки; **никаких повторных начислений** при возврате в основную воронку; резервные UF-поля, чтобы не терялась атрибуция из Tilda и платёжных форм.
 
-## Confidentiality
+## Конфиденциальность
 
-Login screenshot only. No partner balances, rates, or deal IDs.
+Только скриншот экрана входа. Без балансов партнёров, ставок и ID сделок.

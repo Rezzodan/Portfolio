@@ -1,73 +1,73 @@
-## 🎯 Objective
-Understand how SQL Injection and XSS work by exploiting DVWA (Damn Vulnerable Web Application) in an isolated lab.
+## 🎯 Цель
+Разобраться, как работают SQL-инъекции и XSS, эксплуатируя DVWA (Damn Vulnerable Web Application) в изолированной лаборатории.
 
-## 🛠️ Lab Setup
+## 🛠️ Лабораторный стенд
 - **QEMU** + Metasploitable 2
-- **DVWA** (Security Level: Low)
+- **DVWA** (уровень безопасности: Low)
 - **Kali Linux**
-- **Port forwarding:** 8080 → 80
+- **Проброс портов:** 8080 → 80
 
-## 🔴 SQL Injection
+## 🔴 SQL-инъекция
 
-### Test 1: Normal Query
-**Input:** `1`
-**Result:** Single user (admin/admin)
+### Тест 1: обычный запрос
+**Ввод:** `1`
+**Результат:** один пользователь (admin/admin)
 
-### Test 2: Authentication Bypass
-**Input:** `1' OR '1'='1`
-**Result:** All users returned
+### Тест 2: обход аутентификации
+**Ввод:** `1' OR '1'='1`
+**Результат:** возвращены все пользователи
 
-**Why it works:**
-- Query becomes: `SELECT * FROM users WHERE id = '1' OR '1'='1'`
-- `'1'='1'` is always true → all rows returned
+**Почему это работает:**
+- Запрос превращается в: `SELECT * FROM users WHERE id = '1' OR '1'='1'`
+- `'1'='1'` всегда истинно → возвращаются все строки
 
-![Authentication Bypass](sqli/01-auth-bypass.jpg)
+![Обход аутентификации](sqli/01-auth-bypass.jpg)
 
-### Test 3: UNION-based (Extract Passwords)
-**Input:** `1' UNION SELECT user, password FROM users-- `
-**Result:** All usernames and password hashes
+### Тест 3: на основе UNION (извлечение паролей)
+**Ввод:** `1' UNION SELECT user, password FROM users-- `
+**Результат:** все имена пользователей и хеши паролей
 
-**Why it works:**
-- `UNION` combines two queries
-- `-- ` (with space!) comments out the rest
+**Почему это работает:**
+- `UNION` объединяет два запроса
+- `-- ` (с пробелом!) превращает остаток запроса в комментарий
 
-![UNION Passwords](sqli/02-union-passwords.jpg)
+![Пароли через UNION](sqli/02-union-passwords.jpg)
 
-## 🔴 XSS (Reflected)
+## 🔴 XSS (отражённый)
 
-### Test 1: Cookie Theft
-**Input:** `<script>alert(document.cookie)</script>`
-**Result:** Session cookie exposed
+### Тест 1: кража cookie
+**Ввод:** `<script>alert(document.cookie)</script>`
+**Результат:** сессионный cookie раскрыт
 
-**Why it works:**
-- Site inserts input into HTML without encoding
-- Browser executes the script
+**Почему это работает:**
+- Сайт вставляет ввод в HTML без кодирования
+- Браузер выполняет скрипт
 
-![XSS Cookie Theft](xss/01-cookie-theft.jpg)
+![Кража cookie через XSS](xss/01-cookie-theft.jpg)
 
-## 🛡️ Defense (Blue Team)
+## 🛡️ Защита (Blue Team)
 
-### SQL Injection
-- **Prepared statements** (parameterized queries)
-- **Input validation** (only digits for ID)
+### SQL-инъекция
+- **Подготовленные выражения** (параметризованные запросы)
+- **Валидация ввода** (только цифры для ID)
 - **WAF** (ModSecurity)
-- **Least privilege** (DB user with SELECT only)
+- **Минимальные привилегии** (пользователь БД только с правом SELECT)
 
 ### XSS
-- **Output encoding** (`<` → `&lt;`)
+- **Кодирование вывода** (`<` → `&lt;`)
 - **Content Security Policy** (CSP)
-- **HttpOnly cookies** (JS cannot read)
-- **SameSite cookies**
+- **Cookie с флагом HttpOnly** (JS не может их прочитать)
+- **Cookie с атрибутом SameSite**
 
-## 📚 Key Learnings
-- User input must **never** be trusted
-- DVWA demonstrates real-world vulnerabilities
-- **Purple Team:** attack to understand, defend to protect
-- Both SQLi and XSS are in **OWASP Top 10**
+## 📚 Ключевые выводы
+- Пользовательскому вводу **никогда** нельзя доверять
+- DVWA демонстрирует уязвимости, встречающиеся в реальном мире
+- **Purple Team:** атаковать, чтобы понять; защищать, чтобы обезопасить
+- И SQLi, и XSS входят в **OWASP Top 10**
 
-## 🔗 Related
-- [Detecting these attacks with Wazuh SIEM](../SIEM/)
-- [Cybersecurity labs overview](../)
+## 🔗 Связанные материалы
+- [Обнаружение этих атак с помощью Wazuh SIEM](../SIEM/)
+- [Обзор лабораторных работ по кибербезопасности](../)
 
 ---
 

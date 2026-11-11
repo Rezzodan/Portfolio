@@ -1,36 +1,36 @@
-# 🛡️ Cybersecurity Labs
+# 🛡️ Лабораторные работы по кибербезопасности
 
-Hands-on security work in an isolated home lab, built while working full-time as a developer. Focus: **detection and
-response** (Blue Team), with attack practice used to understand what the alerts mean.
+Практическая работа по безопасности в изолированной домашней лаборатории, выполненная параллельно с работой
+разработчиком на полную ставку. Фокус: **обнаружение и реагирование** (Blue Team); практика атак — чтобы понимать, что означают алерты.
 
-**Lab environment:** Kali Linux workstation, Metasploitable 2 in QEMU, DVWA in Docker, Wazuh SIEM in Docker,
-Suricata IDS on the host. All offensive testing targeted only these lab machines.
+**Лабораторная среда:** рабочая станция на Kali Linux, Metasploitable 2 в QEMU, DVWA в Docker, Wazuh SIEM в Docker,
+Suricata IDS на хосте. Все наступательные (offensive) тесты проводились только против этих лабораторных машин.
 
-## Detection & monitoring
+## Обнаружение и мониторинг
 
-| Project | What it shows |
+| Проект | Что демонстрирует |
 |---------|---------------|
-| [SIEM with Wazuh](SIEM/) | Log shipping from a web app, detection of XSS / SQL injection attempts, alert triage |
-| [Network IDS with Suricata](ids-suricata/) | IDS on LAN and Docker interfaces, alert analysis and tuning decision |
-| [SSH brute-force monitor](purplebot/) | Python log parser with thresholds, GeoIP enrichment, Telegram alerts, tests and CI |
+| [SIEM на Wazuh](SIEM/) | Пересылка логов из веб-приложения, обнаружение попыток XSS / SQL-инъекций, разбор (триаж) алертов |
+| [Сетевая IDS на Suricata](ids-suricata/) | IDS на интерфейсах LAN и Docker, анализ алертов и решение по настройке (тюнингу) |
+| [Монитор SSH-брутфорса (перебора паролей)](purplebot/) | Парсер логов на Python с порогами, обогащением GeoIP, алертами в Telegram, тестами и CI |
 
-## Incident response & GRC
+## Реагирование на инциденты и GRC
 
-| Project | What it shows |
+| Проект | Что демонстрирует |
 |---------|---------------|
-| [Incident reports (5)](incident-response/) | Packet and log analysis (Wireshark, tcpdump), root cause, remediation |
-| [Security audit — Botium Toys](audit/) | Controls and compliance assessment: NIST CSF, PCI DSS, GDPR, SOC 2 |
+| [Отчёты об инцидентах (5)](incident-response/) | Анализ пакетов и логов (Wireshark, tcpdump), первопричина, меры по устранению |
+| [Аудит безопасности — Botium Toys](audit/) | Оценка мер контроля и соответствия требованиям (compliance): NIST CSF, PCI DSS, GDPR, SOC 2 |
 
-## Understanding attacks
+## Понимание атак
 
-| Project | What it shows |
+| Проект | Что демонстрирует |
 |---------|---------------|
-| [Web vulnerabilities](web-vulns/) | SQL injection and reflected XSS on DVWA, with the code-level fixes |
-| [Nmap full scan](nmap-scan/) | Service discovery, version detection, Python XML report parser |
-| [FTP traffic capture](network-capture/) | Why cleartext protocols leak credentials, and what to use instead |
-| [Linux system info script](https://github.com/Rezzodan/sys-info-script) | Bash script collecting users, ports, processes and logs for a quick host audit |
+| [Веб-уязвимости](web-vulns/) | SQL-инъекция и отражённый XSS на DVWA, с исправлениями на уровне кода |
+| [Полное сканирование Nmap](nmap-scan/) | Обнаружение сервисов, определение версий, парсер XML-отчёта на Python |
+| [Перехват FTP-трафика](network-capture/) | Почему протоколы с передачей данных в открытом виде раскрывают учётные данные и что использовать вместо них |
+| [Скрипт сбора информации о системе Linux](https://github.com/Rezzodan/sys-info-script) | Bash-скрипт, собирающий пользователей, порты, процессы и логи для быстрого аудита хоста |
 
-## Skills
+## Навыки
 
-Wazuh · Suricata · Wireshark · tcpdump · Nmap · log analysis · incident reporting · NIST CSF · OWASP Top 10 ·
+Wazuh · Suricata · Wireshark · tcpdump · Nmap · анализ логов · составление отчётов об инцидентах · NIST CSF · OWASP Top 10 ·
 Linux · Bash · Python · Docker · QEMU

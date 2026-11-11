@@ -1,47 +1,47 @@
-# Production Infrastructure
+# Продакшен-инфраструктура
 
-![Cover](./assets/cover.png)
-## Screenshots
+![Обложка](./assets/cover.png)
+## Скриншоты
 
-![Mail login](./assets/mail-login.png)
+![Вход в почту](./assets/mail-login.png)
 
-![Container status](./assets/containers-status.png)
+![Статус контейнеров](./assets/containers-status.png)
 
-Self-hosted mail UI + production container status (names/status only).
+Интерфейс почты на собственном сервере + статус контейнеров в продакшене (только имена и статусы).
 
-**Role:** DevOps / platform  
-**Status:** Production  
-**Stack:** Docker Compose · Traefik (HTTPS) · self-hosted mail · split DNS · backup scripts
+**Роль:** DevOps / платформа  
+**Статус:** Продакшен  
+**Стек:** Docker Compose · Traefik (HTTPS) · почта на собственном сервере · split DNS · скрипты резервного копирования
 
-## Overview
+## Обзор
 
-Self-hosted production for all platform services on one server: reverse proxy, TLS, databases, mail, office DNS, reboot bring-up, backups.
+Продакшен всех сервисов платформы на одном собственном сервере: обратный прокси, TLS, базы данных, почта, офисный DNS, подъём после перезагрузки, резервные копии.
 
-## What I built
+## Что я сделал
 
-- Multi-stack compose orchestration in a correct boot order
-- HTTPS termination and host-based routing
-- Self-hosted mail for app SMTP and client work mailboxes
-- DB backup script across product databases + mail DB
-- Inactive mailbox purge policy
-- Office split DNS so domains resolve to LAN IP without breaking marketing DNS
-- Remote-friendly runbooks (`AGENTS` / `COMMANDS`-style docs)
+- Оркестрация нескольких compose-стеков с правильным порядком запуска
+- Терминация HTTPS и маршрутизация по имени хоста
+- Почта на собственном сервере для SMTP приложений и рабочих почтовых ящиков клиентов
+- Скрипт резервного копирования баз данных всех продуктов + БД почты
+- Политика удаления неактивных почтовых ящиков
+- Офисный split DNS, чтобы домены резолвились в IP локальной сети, не ломая маркетинговый DNS
+- Регламенты (runbooks), удобные для удалённой работы (документация в стиле `AGENTS` / `COMMANDS`)
 
-## Results
+## Результаты
 
-- All public products on HTTPS with health-checkable URLs
-- Recoverable reboot procedure
-- Documented incident playbooks (mail, mini-app deploys, quotas)
+- Все публичные продукты работают по HTTPS, у каждого есть URL для проверки работоспособности (health check)
+- Процедура восстановления после перезагрузки
+- Задокументированные сценарии действий при инцидентах (почта, деплой мини-приложений, квоты)
 
-## Hard problems
+## Сложные проблемы
 
-| Issue | Fix |
+| Проблема | Решение |
 |-------|-----|
-| Host Postfix occupied `:25` after reboot → mail container dead | Mask host Postfix; recreate mail Postfix; checklist |
-| Domain mailbox quota exhausted → registration without mailbox | Raise domain quota; smaller default mailbox; purge idle boxes |
-| Gmail `550 NotAuthorized` despite green SPF/DKIM | Diagnosed as **IP reputation** → relay/smart-host path, not “tweak DNS and hope” |
-| Accidental host DNS edits can kill office internet | Diagnose-only rule unless explicitly approved |
+| Postfix на хосте занимал `:25` после перезагрузки → контейнер почты не работал | Замаскировать Postfix на хосте; пересоздать Postfix в контейнере почты; чек-лист |
+| Исчерпана квота домена на почтовые ящики → регистрация проходила без создания почтового ящика | Повысить квоту домена; уменьшить размер ящика по умолчанию; удалять неактивные ящики |
+| Gmail `550 NotAuthorized` при «зелёных» SPF/DKIM | Диагностирована проблема с **репутацией IP** → отправка через relay/smart-host, а не «подкрутить DNS и надеяться» |
+| Случайные правки DNS на хосте могут оставить офис без интернета | Правило «только диагностика», если изменения не согласованы явно |
 
-## Confidentiality
+## Конфиденциальность
 
-No server IPs required here, no `.env`, no ACME private material, no API keys.
+IP-адреса серверов здесь не нужны; нет `.env`, приватных материалов ACME и API-ключей.

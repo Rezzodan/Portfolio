@@ -1,15 +1,15 @@
-# SIEM with Wazuh — Detecting Web Attacks on DVWA
+# SIEM на Wazuh — обнаружение веб-атак на DVWA
 
-## Objective
+## Цель
 
-Deploy Wazuh SIEM, ship web server logs from a vulnerable test application (DVWA) through a Wazuh agent, and detect
-web attacks (XSS, SQL injection) in near real time.
+Развернуть SIEM Wazuh, передавать логи веб-сервера уязвимого тестового приложения (DVWA) через агент Wazuh и
+обнаруживать веб-атаки (XSS, SQL-инъекции) практически в реальном времени.
 
-## Lab setup
+## Лабораторный стенд
 
-- Wazuh 4.10.0 single-node in Docker (manager, indexer, dashboard)
-- Wazuh agent 4.9.0 on Kali Linux
-- DVWA in Docker on port 8080, Apache access logs mounted to the host
+- Wazuh 4.10.0 в режиме single-node в Docker (manager, indexer, dashboard)
+- Агент Wazuh 4.9.0 на Kali Linux
+- DVWA в Docker на порту 8080, логи доступа Apache смонтированы на хост
 
 ```text
 ┌──────────────┐   access.log   ┌──────────────┐   1514/tcp   ┌──────────────┐
@@ -23,9 +23,9 @@ web attacks (XSS, SQL injection) in near real time.
                                                               └──────────────┘
 ```
 
-## Setup
+## Настройка
 
-### 1. Wazuh stack
+### 1. Стек Wazuh
 
 ```bash
 git clone https://github.com/wazuh/wazuh-docker.git -b v4.10.0
@@ -34,11 +34,11 @@ docker compose -f generate-indexer-certs.yml run --rm generator
 docker compose up -d
 ```
 
-Default passwords were changed before first use: `INDEXER_PASSWORD` and `API_PASSWORD` in `docker-compose.yml`,
-user hashes in `config/wazuh_indexer/internal_users.yml`, and the API password in
+Стандартные пароли были изменены до первого использования: `INDEXER_PASSWORD` и `API_PASSWORD` в `docker-compose.yml`,
+хеши пользователей в `config/wazuh_indexer/internal_users.yml` и пароль API в
 `config/wazuh_dashboard/wazuh.yml`.
 
-### 2. DVWA with logs on a host volume
+### 2. DVWA с логами на томе хоста
 
 ```bash
 docker run -d -p 8080:80 --name dvwa \
@@ -46,7 +46,7 @@ docker run -d -p 8080:80 --name dvwa \
   vulnerables/web-dvwa
 ```
 
-### 3. Agent on Kali
+### 3. Агент на Kali
 
 ```bash
 curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | sudo gpg --dearmor -o /usr/share/keyrings/wazuh.gpg
@@ -72,9 +72,9 @@ sudo apt update && sudo apt install wazuh-agent -y
 </localfile>
 ```
 
-## Test traffic
+## Тестовый трафик
 
-Payloads sent to DVWA (security level: low):
+Полезные нагрузки (payload), отправленные в DVWA (уровень безопасности: low):
 
 ```text
 SQL injection:   1' OR '1'='1
@@ -82,43 +82,44 @@ Reflected XSS:   <script>alert('XSS')</script>
                  <script>alert(document.cookie)</script>
 ```
 
-## Results
+## Результаты
 
-Wazuh decoded the Apache logs (`web-accesslog`) and raised rule **31106** — *"A web attack returned code 200
-(success)"*, level 6, groups `web, accesslog, attack`. Code 200 matters: the request was not blocked, so the
-analyst should treat it as a likely successful attack, not just a probe.
+Wazuh декодировал логи Apache (`web-accesslog`) и сработало правило **31106** — *"A web attack returned code 200
+(success)"*, уровень 6, группы `web, accesslog, attack`. Код 200 важен: запрос не был заблокирован, поэтому
+аналитику следует рассматривать его как вероятно успешную атаку, а не просто зондирование.
 
-| Evidence | Payload | Rule | Files |
+| Доказательство | Полезная нагрузка | Правило | Файлы |
 |----------|---------|------|-------|
-| Reflected XSS | `<script>alert('XSS')</script>` | 31106, level 6 | [`xss-alert-basic.json`](xss-alert-basic.json), [`xss-alert-basic.png`](xss-alert-basic.png) |
-| Reflected XSS, cookie access | `<script>alert(document.cookie)</script>` | 31106, level 6 | [`xss-alert-cookie.json`](xss-alert-cookie.json), [`xss-alert-cookie.png`](xss-alert-cookie.png) |
+| Отражённый XSS | `<script>alert('XSS')</script>` | 31106, уровень 6 | [`xss-alert-basic.json`](xss-alert-basic.json), [`xss-alert-basic.png`](xss-alert-basic.png) |
+| Отражённый XSS, доступ к cookie | `<script>alert(document.cookie)</script>` | 31106, уровень 6 | [`xss-alert-cookie.json`](xss-alert-cookie.json), [`xss-alert-cookie.png`](xss-alert-cookie.png) |
 
-The dashboard showed 189 alerts in the last 24 hours (46 medium, 143 low). The SQL injection request was detected
-as well; its alert is not exported here yet.
+Дашборд показал 189 алертов за последние 24 часа (46 среднего уровня, 143 низкого). Запрос с SQL-инъекцией тоже был
+обнаружен; его алерт здесь пока не выгружен.
 
-![Wazuh dashboard overview](dashboard.png)
+![Обзор дашборда Wazuh](dashboard.png)
 
-![Alert details for the cookie-stealing XSS payload](xss-alert-cookie.png)
+![Подробности алерта для XSS-нагрузки, похищающей cookie](xss-alert-cookie.png)
 
-### Compliance tags from Wazuh rule metadata
+### Теги соответствия требованиям из метаданных правил Wazuh
 
-Wazuh attaches these tags to rule 31106 automatically: PCI DSS 6.5 and 11.4, NIST 800-53 SA.11 and SI.4,
+Wazuh автоматически присваивает правилу 31106 следующие теги: PCI DSS 6.5 и 11.4, NIST 800-53 SA.11 и SI.4,
 GDPR IV_35.7.d, TSC CC6.1 / CC6.6 / CC6.8 / CC7.1 – CC7.3 / CC8.1.
 
-## Triage notes
+## Заметки по разбору (триажу)
 
-1. **Is it real?** Payload is a known XSS pattern and the response code is 200 — the page reflected it.
-2. **Scope:** single source IP (`172.17.0.1`, the Docker bridge), one endpoint (`/vulnerabilities/xss_r/`).
-3. **Response in a real environment:** block or rate-limit the source, fix output encoding on the endpoint, add a
-   Content Security Policy, set `HttpOnly` on session cookies, and check for session reuse after the alert time.
+1. **Это реальная атака?** Полезная нагрузка — известный шаблон XSS, а код ответа 200 — страница её отразила.
+2. **Масштаб:** один IP-адрес источника (`172.17.0.1`, мост Docker), один эндпоинт (`/vulnerabilities/xss_r/`).
+3. **Реагирование в реальной среде:** заблокировать источник или ограничить для него частоту запросов (rate limit),
+   исправить кодирование вывода на эндпоинте, добавить Content Security Policy, установить `HttpOnly` для сессионных
+   cookie и проверить, не использовалась ли сессия повторно после времени алерта.
 
-## Key learnings
+## Ключевые выводы
 
-- Container logs must be exposed through a volume for the agent to read them
-- `log_format` must be `apache` for the web attack rules to match
-- A status code in the alert changes priority: 200 means the attack reached the application
+- Логи контейнера должны быть доступны через том (volume), чтобы агент мог их читать
+- `log_format` должен быть `apache`, чтобы срабатывали правила обнаружения веб-атак
+- Код состояния в алерте меняет приоритет: 200 означает, что атака дошла до приложения
 
-## Related
+## Связанные материалы
 
-- [How these attacks work and how to fix them](../web-vulns/)
-- [Network IDS with Suricata](../ids-suricata/)
+- [Как работают эти атаки и как их устранить](../web-vulns/)
+- [Сетевая IDS на Suricata](../ids-suricata/)

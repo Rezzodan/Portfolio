@@ -1,19 +1,19 @@
-# FTP Traffic Capture — Plaintext Credentials
+# Захват FTP-трафика — учётные данные открытым текстом
 
-## Objective
+## Цель
 
-Capture FTP traffic in an isolated lab and show why legacy cleartext protocols are a risk: anyone on the network
-path can read the credentials.
+Захватить FTP-трафик в изолированной лаборатории и показать, почему устаревшие протоколы, передающие данные открытым
+(незашифрованным) текстом, представляют риск: любой, кто находится на сетевом пути, может прочитать учётные данные.
 
-## Lab setup
+## Лабораторный стенд
 
-- Kali Linux (analyst machine)
-- Metasploitable 2 in QEMU (target, `vsftpd 2.3.4`)
+- Kali Linux (машина аналитика)
+- Metasploitable 2 в QEMU (цель, `vsftpd 2.3.4`)
 - tcpdump, Wireshark
 
-## Steps
+## Шаги
 
-1. Start the target VM with FTP and SSH forwarded to the host:
+1. Запустить целевую ВМ с пробросом FTP и SSH на хост:
 
    ```bash
    qemu-system-x86_64 -m 512 -accel tcg \
@@ -22,19 +22,19 @@ path can read the credentials.
      -drive file="Metasploitable.vmdk",format=vmdk
    ```
 
-2. Capture traffic on the target:
+2. Захватить трафик на целевой машине:
 
    ```bash
    sudo tcpdump -i eth0 -s 0 -w /tmp/ftp_capture.pcap
    ```
 
-3. Log in over FTP from Kali (default lab account `msfadmin`):
+3. Войти по FTP с Kali (стандартная лабораторная учётная запись `msfadmin`):
 
    ```bash
    ftp localhost 2121
    ```
 
-4. Copy the capture to Kali and open it in Wireshark:
+4. Скопировать файл захвата на Kali и открыть его в Wireshark:
 
    ```bash
    scp -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa \
@@ -42,11 +42,11 @@ path can read the credentials.
    wireshark ~/ftp_capture.pcap
    ```
 
-5. Filter `tcp.port == 21`, then **Follow → TCP Stream**.
+5. Применить фильтр `tcp.port == 21`, затем **Follow → TCP Stream**.
 
-## Result
+## Результат
 
-The FTP control channel carries the username and password in cleartext:
+Управляющий канал FTP передаёт имя пользователя и пароль открытым текстом:
 
 ```text
 220 (vsFTPd 2.3.4)
@@ -56,20 +56,20 @@ PASS msfadmin
 230 Login successful.
 ```
 
-![Wireshark TCP stream with USER and PASS in cleartext](wireshark-tcp-stream.jpg)
+![TCP-поток в Wireshark с USER и PASS открытым текстом](wireshark-tcp-stream.jpg)
 
-![Packet list for the FTP session](wireshark-packets.jpg)
+![Список пакетов FTP-сеанса](wireshark-packets.jpg)
 
-## Detection and mitigation
+## Обнаружение и меры защиты
 
-| Risk | Mitigation |
+| Риск | Мера защиты |
 |------|------------|
-| Credentials readable on the wire | Replace FTP with SFTP or FTPS |
-| Legacy service exposed | Disable FTP where not needed, restrict by firewall |
-| Credential reuse | Unique passwords, MFA on remote access |
-| No visibility | Alert on cleartext auth protocols (IDS rules for FTP `USER`/`PASS`) |
+| Учётные данные можно прочитать при передаче по сети | Заменить FTP на SFTP или FTPS |
+| Устаревший сервис доступен извне | Отключить FTP там, где он не нужен, ограничить доступ межсетевым экраном |
+| Повторное использование учётных данных | Уникальные пароли, MFA для удалённого доступа |
+| Отсутствие видимости | Алерты на протоколы аутентификации с открытым текстом (правила IDS для FTP `USER`/`PASS`) |
 
-## Files
+## Файлы
 
-- [`ftp_capture.pcap`](ftp_capture.pcap) — raw capture (lab traffic only)
-- [`wireshark-tcp-stream.jpg`](wireshark-tcp-stream.jpg), [`wireshark-packets.jpg`](wireshark-packets.jpg) — screenshots
+- [`ftp_capture.pcap`](ftp_capture.pcap) — сырой файл захвата (только лабораторный трафик)
+- [`wireshark-tcp-stream.jpg`](wireshark-tcp-stream.jpg), [`wireshark-packets.jpg`](wireshark-packets.jpg) — скриншоты

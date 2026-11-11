@@ -1,19 +1,19 @@
-# NIST CSF Incident Report: ICMP Flood DoS Attack
+# Отчёт об инциденте по NIST CSF: DoS-атака ICMP-флудом
 
-## 📋 Overview
-This project demonstrates the application of the **NIST Cybersecurity Framework (CSF)** to analyze and respond to a Denial of Service (DoS) attack caused by an ICMP flood. The incident occurred due to a misconfigured firewall and disrupted internal network services for two hours.
+## 📋 Обзор
+Этот проект демонстрирует применение **NIST Cybersecurity Framework (CSF)** для анализа атаки типа «отказ в обслуживании» (DoS), вызванной ICMP-флудом, и реагирования на неё. Инцидент произошёл из-за неправильно настроенного межсетевого экрана (firewall) и на два часа нарушил работу внутренних сетевых сервисов.
 
-## 🎯 Framework Applied (NIST CSF)
-*   **Identify:** Audited the network to find the misconfigured firewall lacking rate limiting and IP verification.
-*   **Protect:** Implemented firewall rules, anti-spoofing verification, and an IPS to filter malicious traffic.
-*   **Detect:** Deployed network monitoring software and IDS to alert on abnormal traffic patterns.
-*   **Respond:** Contained the attack by blocking ICMP traffic and offlining non-critical services. Updated the response playbook.
-*   **Recover:** Restored critical services and outlined a Disaster Recovery Plan (DRP) for future events.
+## 🎯 Применённый фреймворк (NIST CSF)
+*   **Идентификация (Identify):** проведён аудит сети, в ходе которого обнаружен неправильно настроенный фаервол без ограничения частоты (rate limiting) и проверки IP-адресов.
+*   **Защита (Protect):** внедрены правила фаервола, проверка против подмены адресов (anti-spoofing) и IPS для фильтрации вредоносного трафика.
+*   **Обнаружение (Detect):** развёрнуты ПО для мониторинга сети и IDS для оповещения об аномальных паттернах трафика.
+*   **Реагирование (Respond):** атака сдержана путём блокировки ICMP-трафика и отключения некритичных сервисов. Обновлён сценарий реагирования (playbook).
+*   **Восстановление (Recover):** восстановлены критически важные сервисы и намечен план аварийного восстановления (Disaster Recovery Plan, DRP) на случай будущих инцидентов.
 
-## 🛠️ Key Takeaways
-- Learned how to map a real-world security incident to the 5 core functions of the NIST CSF.
-- Developed a comprehensive plan to improve network security posture against future DoS attacks.
+## 🛠️ Ключевые выводы
+- Освоено сопоставление реального инцидента безопасности с 5 основными функциями NIST CSF.
+- Разработан комплексный план повышения уровня защищённости сети от будущих DoS-атак.
 
-## Files
+## Файлы
 
-- [`incident-report.pdf`](incident-report.pdf) — full report structured by the NIST CSF functions
+- [`incident-report.pdf`](incident-report.pdf) — полный отчёт, структурированный по функциям NIST CSF

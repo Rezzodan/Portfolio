@@ -1,14 +1,15 @@
-# Incident Response Reports
+# Отчёты по реагированию на инциденты
 
-Five investigations written as stakeholder-ready reports: what happened, the evidence, the root cause and what to
-fix. Scenarios come from the Google Cybersecurity Professional Certificate; organizations and IPs are fictional.
+Пять расследований, оформленных как отчёты для заинтересованных сторон (руководства): что произошло, доказательства,
+первопричина и что нужно исправить. Сценарии взяты из Google Cybersecurity Professional Certificate; организации и
+IP-адреса вымышлены.
 
-| Report | Incident | Evidence & tools | Framework |
+| Отчёт | Инцидент | Доказательства и инструменты | Фреймворк |
 |--------|----------|------------------|-----------|
-| [SYN flood DoS](syn_flood_dos_analysis/) | Web server overwhelmed by half-open TCP connections | Wireshark TCP/HTTP log | — |
-| [ICMP flood DoS](nist_csf_icmp_dos_analysis/) | Internal network down for two hours via a misconfigured firewall | Incident narrative | NIST CSF |
-| [DNS outage](dns_icmp_traffic_analysis/) | Website unreachable: UDP 53 answered with ICMP "port unreachable" | tcpdump | — |
-| [Brute force → malicious redirect](malicious_redirect_bruteforce/) | Default admin password, injected JavaScript, redirect to a lookalike domain | tcpdump in a sandbox | — |
-| [Network hardening after a breach](social_media_network_hardening/) | Four vulnerabilities behind a data breach | Risk assessment | MFA, password policy, firewall |
+| [DoS-атака SYN-флудом](syn_flood_dos_analysis/) | Веб-сервер перегружен полуоткрытыми TCP-соединениями | Лог TCP/HTTP из Wireshark | — |
+| [DoS-атака ICMP-флудом](nist_csf_icmp_dos_analysis/) | Внутренняя сеть не работала два часа из-за неправильно настроенного межсетевого экрана (firewall) | Описание инцидента | NIST CSF |
+| [Сбой DNS](dns_icmp_traffic_analysis/) | Сайт недоступен: на запросы к UDP 53 приходил ответ ICMP "port unreachable" | tcpdump | — |
+| [Брутфорс (перебор паролей) → вредоносное перенаправление](malicious_redirect_bruteforce/) | Пароль администратора по умолчанию, внедрённый JavaScript, перенаправление на похожий (поддельный) домен | tcpdump в песочнице | — |
+| [Усиление защиты (hardening) сети после взлома](social_media_network_hardening/) | Четыре уязвимости, ставшие причиной утечки данных | Оценка рисков | Многофакторная аутентификация (MFA), парольная политика, фаервол |
 
-Every folder has a README summary and the full report as PDF.
+В каждой папке есть краткое описание в README и полный отчёт в формате PDF.

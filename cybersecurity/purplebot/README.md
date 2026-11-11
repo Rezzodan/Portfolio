@@ -1,15 +1,15 @@
-# 🛡️ Purple Team Bot — SSH Brute-Force Monitor
+# 🛡️ Purple Team Bot — монитор SSH-брутфорса (перебора паролей)
 
 [![purplebot](https://github.com/Rezzodan/Portfolio/actions/workflows/purplebot.yml/badge.svg)](https://github.com/Rezzodan/Portfolio/actions/workflows/purplebot.yml)
 
-A Python tool that parses SSH authentication logs, flags brute-force sources above a threshold, enriches attacker
-IPs with GeoIP data and sends an alert to Telegram. Runs on a schedule via cron.
+Инструмент на Python, который парсит логи аутентификации SSH, помечает источники брутфорса, превысившие порог,
+обогащает IP-адреса атакующих данными GeoIP и отправляет алерт в Telegram. Запускается по расписанию через cron.
 
-**Use case:** a small team without a SIEM still gets immediate visibility into password-guessing against its servers.
+**Сценарий использования:** небольшая команда без SIEM всё равно сразу видит попытки подбора паролей к своим серверам.
 
 <img src="telegram-alert.png" alt="Telegram alert produced by the bot" width="320">
 
-## Architecture
+## Архитектура
 
 ```text
 ┌──────────────────┐     ┌────────────────────────┐     ┌──────────────────┐
@@ -19,28 +19,29 @@ IPs with GeoIP data and sends an alert to Telegram. Runs on a schedule via cron.
         cron ───────────▶└────────────────────────┘
 ```
 
-## Features
+## Возможности
 
-- Detects `Failed password` events, including `invalid user` attempts, and counts them per `user@ip`
-- Tracks first / last seen time for every source and highlights sources above the threshold
-- Lists successful logins next to the failures as an audit trail
-- GeoIP enrichment (country, ISP) with an in-memory cache
-- Colored terminal report and an HTML Telegram summary
-- Interactive installer: virtualenv, config, cron schedule, test message
+- Обнаруживает события `Failed password`, включая попытки `invalid user`, и считает их для каждой пары `user@ip`
+- Отслеживает время первого / последнего появления каждого источника и выделяет источники, превысившие порог
+- Показывает успешные входы рядом с неудачными в качестве журнала аудита (audit trail)
+- Обогащение данными GeoIP (страна, провайдер) с кэшем в памяти
+- Цветной отчёт в терминале и HTML-сводка в Telegram
+- Интерактивный установщик: virtualenv, конфигурация, расписание cron, тестовое сообщение
 
-## Security design
+## Безопасность в архитектуре
 
-The bot handles a secret (the Telegram token) and untrusted input (usernames typed by attackers), so:
+Бот работает с секретом (токеном Telegram) и недоверенными входными данными (именами пользователей, которые вводят
+атакующие), поэтому:
 
-| Risk | Mitigation |
+| Риск | Меры защиты |
 |------|------------|
-| Token committed to Git or visible in the process list | Config lives in `.env` (git-ignored, `chmod 600`); the installer reads the token with hidden input and never passes it on a command line |
-| Token leaking through error messages (it is part of the API URL) | Network errors are logged by exception type only |
-| Attacker-controlled usernames breaking or spoofing the HTML alert | All log values are HTML-escaped before sending — covered by a test |
-| Internal addresses leaking to a third-party API | Private / reserved IPs are never sent to the GeoIP service |
-| Alerts silently going to a placeholder bot | Placeholder values from `.env.example` disable Telegram with a warning |
+| Токен попадает в коммит Git или виден в списке процессов | Конфигурация хранится в `.env` (игнорируется Git, `chmod 600`); установщик запрашивает токен скрытым вводом и никогда не передаёт его в командной строке |
+| Утечка токена через сообщения об ошибках (он входит в URL API) | Сетевые ошибки логируются только по типу исключения |
+| Имена пользователей, контролируемые атакующим, ломают или подделывают HTML-алерт | Все значения из лога экранируются для HTML перед отправкой — это покрыто тестом |
+| Утечка внутренних адресов в сторонний API | Частные / зарезервированные IP никогда не отправляются в сервис GeoIP |
+| Алерты незаметно уходят боту-заглушке | Значения-заглушки из `.env.example` отключают Telegram с предупреждением |
 
-## Quick start
+## Быстрый старт
 
 ```bash
 git clone https://github.com/Rezzodan/Portfolio.git
@@ -48,10 +49,10 @@ cd Portfolio/cybersecurity/purplebot
 sudo ./install.sh
 ```
 
-The installer checks Python, creates `.venv`, asks for the Telegram token, chat id, log path and threshold, writes
-`.env`, sets up the cron job, sends a test message and runs the first scan.
+Установщик проверяет Python, создаёт `.venv`, запрашивает токен Telegram, chat id, путь к логу и порог, записывает
+`.env`, настраивает задание cron, отправляет тестовое сообщение и запускает первое сканирование.
 
-### Manual setup
+### Ручная установка
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
@@ -61,22 +62,22 @@ python3 send_test_message.py             # check Telegram settings
 sudo .venv/bin/python3 ssh_monitor.py
 ```
 
-Get a token from **@BotFather**, your chat id from **@userinfobot**, and send `/start` to your bot first.
+Токен получите у **@BotFather**, свой chat id — у **@userinfobot**, а перед этим отправьте `/start` своему боту.
 
-### Configuration
+### Конфигурация
 
-| Variable | Default | Meaning |
+| Переменная | По умолчанию | Назначение |
 |----------|---------|---------|
-| `TELEGRAM_TOKEN` | — | Bot token from @BotFather |
-| `TELEGRAM_CHAT_ID` | — | Where alerts are sent |
-| `LOG_FILE` | `/var/log/auth.log` | SSH log to analyze |
-| `THRESHOLD` | `5` | Failed attempts per `user@ip` that mark a source as suspicious |
-| `ENABLE_GEOIP` | `true` | Look up country / ISP for public IPs |
-| `MAX_SOURCES` | `10` | Sources listed in a report |
+| `TELEGRAM_TOKEN` | — | Токен бота от @BotFather |
+| `TELEGRAM_CHAT_ID` | — | Куда отправляются алерты |
+| `LOG_FILE` | `/var/log/auth.log` | Лог SSH для анализа |
+| `THRESHOLD` | `5` | Число неудачных попыток на `user@ip`, при котором источник помечается как подозрительный |
+| `ENABLE_GEOIP` | `true` | Определять страну / провайдера для публичных IP |
+| `MAX_SOURCES` | `10` | Сколько источников выводится в отчёте |
 
-Environment variables override values from `.env`.
+Переменные окружения переопределяют значения из `.env`.
 
-## Try it on the sample log
+## Попробуйте на тестовом логе
 
 ```bash
 LOG_FILE=tests/fixtures/auth.log ENABLE_GEOIP=false python3 ssh_monitor.py
@@ -95,10 +96,10 @@ LOG_FILE=tests/fixtures/auth.log ENABLE_GEOIP=false python3 ssh_monitor.py
   ⚠️  <b>x</b>@198.51.100.7          █ 1
 ```
 
-The `<b>x</b>` username is a deliberate injection attempt in the fixture: it is printed as text and escaped in the
-Telegram message.
+Имя пользователя `<b>x</b>` — намеренная попытка инъекции в тестовых данных (fixture): оно выводится как текст
+и экранируется в сообщении Telegram.
 
-## Tests and CI
+## Тесты и CI
 
 ```bash
 pip install pytest ruff
@@ -106,17 +107,17 @@ ruff check .   # includes bandit (S) security rules
 pytest -q      # 12 tests: parsing, threshold, escaping, config, no GeoIP for private IPs
 ```
 
-GitHub Actions runs both on every change to this folder.
+GitHub Actions запускает обе проверки при каждом изменении в этой папке.
 
-## Known limitations and next steps
+## Известные ограничения и следующие шаги
 
-- The threshold counts attempts over the whole log, not within a time window — next: sliding window per source
-- Each run re-reads the full log, so the same activity is reported again — next: remember the last read offset
-- Systems without rsyslog keep SSH events only in journald — next: read from `journalctl -u ssh`
-- Cron runs the monitor as root — it only needs read access, so a dedicated user in the `adm` group is better
-- Response is manual — next: optional fail2ban / firewall block for sources above the threshold
+- Порог считает попытки по всему логу, а не в пределах временного окна — следующий шаг: скользящее окно для каждого источника
+- При каждом запуске лог перечитывается целиком, поэтому об одной и той же активности сообщается повторно — следующий шаг: запоминать смещение (offset), до которого лог уже прочитан
+- В системах без rsyslog события SSH хранятся только в journald — следующий шаг: читать из `journalctl -u ssh`
+- Cron запускает монитор от root — ему нужен только доступ на чтение, поэтому лучше выделенный пользователь в группе `adm`
+- Реагирование ручное — следующий шаг: опциональная блокировка через fail2ban / файрвол для источников, превысивших порог
 
-## Project structure
+## Структура проекта
 
 ```text
 purplebot/
@@ -131,9 +132,9 @@ purplebot/
     └── test_ssh_monitor.py
 ```
 
-## Related
+## Связанные проекты
 
-- [SIEM with Wazuh](../SIEM/)
-- [Network IDS with Suricata](../ids-suricata/)
+- [SIEM на Wazuh](../SIEM/)
+- [Сетевая IDS на Suricata](../ids-suricata/)
 
-All testing was performed in an isolated lab environment.
+Всё тестирование проводилось в изолированной лабораторной среде.

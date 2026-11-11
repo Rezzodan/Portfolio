@@ -1,37 +1,37 @@
-# Client Mini App (Telegram + MAX)
+# Клиентское мини-приложение (Telegram + MAX)
 
-![Cover](./assets/cover.png)
-## Screenshots
+![Обложка](./assets/cover.png)
+## Скриншоты
 
-![Client menu](./assets/ui-menu.png)
+![Меню клиента](./assets/ui-menu.png)
 
-Mobile client menu with deal status chip (demo/fixture data — no real client PII).
+Мобильное меню клиента с плашкой статуса сделки (демо/тестовые данные — без реальных персональных данных (PII) клиентов).
 
-**Role:** Frontend / product delivery  
-**Status:** Production  
-**Stack:** React · TypeScript · Vite · MUI · React Query · Telegram & MAX WebApp bridges
+**Роль:** Фронтенд / поставка продукта  
+**Статус:** Продакшен  
+**Стек:** React · TypeScript · Vite · MUI · React Query · мосты Telegram и MAX WebApp
 
-## Overview
+## Обзор
 
-Client cabinet inside messengers: onboarding without a separate native app store release.
+Личный кабинет клиента внутри мессенджеров: онбординг без отдельного релиза нативного приложения в магазинах приложений.
 
-## What I built
+## Что я сделал
 
-- Full client journey: registration → certificate → e-signature → bureau report upload → deal status
-- One codebase for **Telegram Mini App** and **MAX Mini App**
-- Platform adapter / bridge layer for launch params and user identity
-- Production deploys via Docker images (with version boot-markers)
+- Полный путь клиента: регистрация → сертификат → электронная подпись → загрузка отчёта из бюро кредитных историй (БКИ) → статус сделки
+- Единая кодовая база для **Telegram Mini App** и **MAX Mini App**
+- Слой адаптеров / мостов для платформ: параметры запуска и идентификация пользователя
+- Деплой в продакшен через Docker-образы (с маркерами версии при запуске — boot markers)
 
-## Results
+## Результаты
 
-- Self-serve onboarding for end clients
-- Dual-platform delivery without maintaining two products
+- Самостоятельный онбординг для конечных клиентов
+- Поставка на две платформы без поддержки двух отдельных продуктов
 
-## Hard problem
+## Сложная проблема
 
-**MAX webview broke when Telegram SDK was injected** — infinite loaders / “failed to get profile”.  
-**Fix:** platform-specific bridge, never load Telegram scripts in MAX, boot markers, and mandatory image rebuilds (hotfixes via `docker cp` disappeared after recreate).
+**Webview MAX ломался при подключении Telegram SDK** — бесконечные загрузчики / «failed to get profile».  
+**Решение:** отдельный мост для каждой платформы, Telegram-скрипты в MAX не загружаются никогда, маркеры запуска (boot markers) и обязательная пересборка образов (хотфиксы через `docker cp` пропадали после пересоздания контейнера).
 
-## Confidentiality
+## Конфиденциальность
 
-No source code or secrets. UI of authenticated client cabinets is not shown (PII risk).
+Без исходного кода и секретов. Интерфейс личных кабинетов клиентов после авторизации не показан (риск раскрытия персональных данных — PII).

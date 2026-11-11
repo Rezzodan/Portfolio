@@ -1,36 +1,36 @@
-# Admin Panel (Operators)
+# Админ-панель (для операторов)
 
-![Cover](./assets/cover.png)
-## Screenshots
+![Обложка](./assets/cover.png)
+## Скриншоты
 
-![Operator login](./assets/ui-login.png)
+![Вход для оператора](./assets/ui-login.png)
 
-Public authentication screen only.
+Только публичный экран аутентификации.
 
-**Role:** Frontend  
-**Status:** Production  
-**Stack:** React · TypeScript · Vite · MUI
+**Роль:** Фронтенд  
+**Статус:** Продакшен  
+**Стек:** React · TypeScript · Vite · MUI
 
-## Overview
+## Обзор
 
-Internal tool for operators: authenticate, open deals, correct client data, manage statuses — talks to the Core API.
+Внутренний инструмент для операторов: авторизация, открытие сделок, исправление данных клиентов, управление статусами — работает через основной API (Core API).
 
-## What I built
+## Что я сделал
 
-- Login and deal-editing UI for day-to-day support
-- API routing for office LAN vs public HTTPS builds
-- Operator workflows that reduce routine CRM clicking
+- Интерфейс входа и редактирования сделок для повседневной поддержки
+- Маршрутизация API для сборок под офисную локальную сеть (LAN) и под публичный HTTPS
+- Рабочие сценарии операторов, сокращающие рутинные клики в CRM
 
-## Results
+## Результаты
 
-- Operators can fix common deal issues from one panel
-- Same design language as other React apps in the suite
+- Операторы могут исправлять типичные проблемы со сделками из одной панели
+- Тот же визуальный язык, что и у остальных React-приложений платформы
 
-## Hard problem
+## Сложная проблема
 
-**Wrong API host when opening admin by LAN IP** — login worked visually but calls failed.  
-**Fix:** auto-route LAN → local API port; domain builds use HTTPS API via build-time env (rebuild required after env change).
+**Неверный хост API при открытии админки по IP в локальной сети** — визуально вход проходил, но запросы падали.  
+**Решение:** автоматическая маршрутизация LAN → локальный порт API; сборки для домена используют HTTPS API через env-переменные, задаваемые на этапе сборки (после изменения env нужна пересборка).
 
-## Confidentiality
+## Конфиденциальность
 
-Screenshot shows **public login UI only** (no client records).
+На скриншоте **только публичный интерфейс входа** (без записей клиентов).
