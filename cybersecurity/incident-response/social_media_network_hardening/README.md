@@ -1,18 +1,18 @@
-# Security Risk Assessment & Network Hardening
+# Оценка рисков безопасности и усиление защиты (hardening) сети
 
-## 📋 Overview
-This report analyzes four critical vulnerabilities identified in a social media organization following a major data breach. It proposes specific network hardening tools to mitigate these risks and prevent future incidents.
+## 📋 Обзор
+В этом отчёте анализируются четыре критические уязвимости, выявленные в компании из сферы социальных сетей после крупной утечки данных. В нём предлагаются конкретные инструменты усиления защиты сети, позволяющие снизить эти риски и предотвратить будущие инциденты.
 
-## 🛠️ Hardening Methods Selected
-1. **Multifactor Authentication (MFA):** To prevent unauthorized access even if credentials are compromised.
-2. **Password Policies:** To eliminate default passwords and prevent password sharing.
-3. **Firewall Maintenance:** To establish traffic filtering rules and block malicious traffic.
+## 🛠️ Выбранные методы усиления защиты
+1. **Многофакторная аутентификация (MFA):** чтобы предотвратить несанкционированный доступ даже при компрометации учётных данных.
+2. **Парольные политики:** чтобы исключить пароли по умолчанию и не допустить совместного использования паролей.
+3. **Обслуживание межсетевого экрана (firewall):** чтобы задать правила фильтрации трафика и блокировать вредоносный трафик.
 
-## 📊 Key Outcomes
-- Addressed vulnerabilities related to weak authentication and missing firewall rules.
-- Provided a timeline for implementing and maintaining each security control.
+## 📊 Ключевые результаты
+- Проработаны уязвимости, связанные со слабой аутентификацией и отсутствием правил фаервола.
+- Предложен график внедрения и сопровождения каждой меры защиты.
 
-## Files
+## Файлы
 
-- [`risk-assessment-report.pdf`](risk-assessment-report.pdf) — security risk assessment
-- [`network-hardening-tools.pdf`](network-hardening-tools.pdf) — comparison of hardening tools and methods
+- [`risk-assessment-report.pdf`](risk-assessment-report.pdf) — оценка рисков безопасности
+- [`network-hardening-tools.pdf`](network-hardening-tools.pdf) — сравнение инструментов и методов усиления защиты

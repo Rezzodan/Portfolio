@@ -1,43 +1,43 @@
-# SYN Flood DoS Attack — Incident Analysis
+# DoS-атака SYN-флудом — анализ инцидента
 
-## 📋 Overview
-This project is a **network traffic analysis** of a Denial of Service (DoS) incident. It demonstrates the ability to analyze packet captures (Wireshark logs) to identify a SYN flood attack, understand its impact on a web server, and document the findings in a professional incident report.
+## 📋 Обзор
+Этот проект — **анализ сетевого трафика** инцидента типа «отказ в обслуживании» (DoS). Он демонстрирует умение анализировать захваченные пакеты (логи Wireshark), чтобы выявить атаку SYN-флуд, понять её влияние на веб-сервер и задокументировать результаты в профессиональном отчёте об инциденте.
 
-This project was completed as part of the **Google Cybersecurity Professional Certificate** (Course 3: Connect and Protect: Networks and Network Security).
+Проект выполнен в рамках **Google Cybersecurity Professional Certificate** (Курс 3: Connect and Protect: Networks and Network Security).
 
-## 🎯 Objective
-Analyze the provided Wireshark TCP/HTTP log to:
-- Identify the type of network attack.
-- Explain how the TCP three-way handshake is exploited.
-- Determine the root cause of the service interruption.
+## 🎯 Цель
+Проанализировать предоставленный лог TCP/HTTP из Wireshark, чтобы:
+- Определить тип сетевой атаки.
+- Объяснить, как эксплуатируется трёхстороннее рукопожатие TCP.
+- Установить первопричину прерывания работы сервиса.
 
-## 🔍 Incident Summary
-| Item | Details |
+## 🔍 Краткое описание инцидента
+| Параметр | Подробности |
 |---|---|
-| **Target** | Company Web Server (`192.0.2.1`) |
-| **Attack Type** | Direct Denial of Service (DoS) — SYN Flood |
-| **Attacker IP** | `203.0.113.0` |
-| **Impact** | Web server overwhelmed, legitimate users received `HTTP 504 Gateway Time-out` errors. |
+| **Объект атаки** | Веб-сервер компании (`192.0.2.1`) |
+| **Тип атаки** | Прямая атака «отказ в обслуживании» (DoS) — SYN-флуд |
+| **IP атакующего** | `203.0.113.0` |
+| **Последствия** | Веб-сервер перегружен, легитимные пользователи получали ошибки `HTTP 504 Gateway Time-out`. |
 
-## 📊 Analysis
-The Wireshark log showed:
-1. A single IP address (`203.0.113.0`) sending an abnormal volume of TCP `[SYN]` packets.
-2. The server responded with `[SYN, ACK]` packets, allocating resources for each request.
-3. Because the attacker never completed the handshake with an `[ACK]`, the server's connection table filled up (half-open connections).
-4. Eventually, the server could no longer respond to legitimate employee traffic, resulting in connection resets (`RST, ACK`) and timeouts.
+## 📊 Анализ
+Лог Wireshark показал:
+1. Один IP-адрес (`203.0.113.0`) отправлял аномально большое количество TCP-пакетов `[SYN]`.
+2. Сервер отвечал пакетами `[SYN, ACK]`, выделяя ресурсы под каждый запрос.
+3. Поскольку атакующий так и не завершал рукопожатие пакетом `[ACK]`, таблица соединений сервера переполнилась (полуоткрытые соединения).
+4. В итоге сервер перестал отвечать на легитимный трафик сотрудников, что привело к сбросам соединений (`RST, ACK`) и тайм-аутам.
 
-## 🛠 Tools Used
-- **Wireshark** — packet analysis (TCP/HTTP logs)
-- **TCP/IP Model** — understanding of the transport layer and three-way handshake
+## 🛠 Использованные инструменты
+- **Wireshark** — анализ пакетов (логи TCP/HTTP)
+- **Модель TCP/IP** — понимание транспортного уровня и трёхстороннего рукопожатия
 
-## 📝 Recommendations
-1. **Implement SYN Cookies** on the web server to prevent resource exhaustion.
-2. **Rate limiting** on the firewall to block IPs sending excessive SYN requests.
-3. **Deploy a WAF (Web Application Firewall)** or DDoS protection service.
-4. **Blackhole routing** for the attacking IP (as a temporary mitigation).
+## 📝 Рекомендации
+1. **Включить SYN cookies** на веб-сервере, чтобы предотвратить исчерпание ресурсов.
+2. **Ограничение частоты запросов (rate limiting)** на межсетевом экране (firewall) для блокировки IP-адресов, отправляющих чрезмерное количество SYN-запросов.
+3. **Развернуть WAF (Web Application Firewall)** или сервис защиты от DDoS.
+4. **Blackhole-маршрутизация** для атакующего IP-адреса (как временная мера защиты).
 
-## Files
+## Файлы
 
-- [`incident-report.pdf`](incident-report.pdf) — full incident report
-- [`wireshark-tcp-http-log.pdf`](wireshark-tcp-http-log.pdf) — Wireshark TCP/HTTP log
-- [`wireshark-log-table.pdf`](wireshark-log-table.pdf) — the same log as a table
+- [`incident-report.pdf`](incident-report.pdf) — полный отчёт об инциденте
+- [`wireshark-tcp-http-log.pdf`](wireshark-tcp-http-log.pdf) — лог TCP/HTTP из Wireshark
+- [`wireshark-log-table.pdf`](wireshark-log-table.pdf) — тот же лог в виде таблицы

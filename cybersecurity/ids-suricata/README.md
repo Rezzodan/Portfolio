@@ -1,19 +1,20 @@
-# Network IDS with Suricata
+# Сетевая IDS на Suricata
 
-## Objective
+## Цель
 
-Run Suricata as a network intrusion detection system on a Kali workstation, monitor both the wireless interface and
-the Docker bridge where lab containers live, and analyze the alerts it raises.
+Запустить Suricata в качестве сетевой системы обнаружения вторжений на рабочей станции Kali, отслеживать как
+беспроводной интерфейс, так и мост Docker, к которому подключены лабораторные контейнеры, и проанализировать
+генерируемые ею алерты.
 
-## Setup
+## Настройка
 
-- Suricata 8.0.7 as a systemd service, AF_PACKET capture mode
-- Interfaces: `wlan1` (LAN) and `docker0` (lab containers such as DVWA)
-- `HOME_NET` set to the private ranges `192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12`
-- Rules loaded from `suricata.rules` (Emerging Threats Open rule set)
-- Output: `fast.log` for quick review and `eve.json` for SIEM ingestion
+- Suricata 8.0.7 как служба systemd, режим захвата AF_PACKET
+- Интерфейсы: `wlan1` (LAN) и `docker0` (лабораторные контейнеры, например DVWA)
+- `HOME_NET` задан как частные диапазоны `192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12`
+- Правила загружаются из `suricata.rules` (набор правил Emerging Threats Open)
+- Вывод: `fast.log` для быстрого просмотра и `eve.json` для загрузки в SIEM
 
-Relevant part of the configuration ([full example](config/suricata.yaml.example)):
+Соответствующая часть конфигурации ([полный пример](config/suricata.yaml.example)):
 
 ```yaml
 af-packet:
@@ -27,7 +28,7 @@ af-packet:
     defrag: yes
 ```
 
-Verify the service and the capture interfaces:
+Проверка службы и интерфейсов захвата:
 
 ```bash
 sudo systemctl status suricata
@@ -35,44 +36,45 @@ sudo suricatasc -c "iface-list"
 # {"message":{"count":2,"ifaces":["wlan1","docker0"]},"return":"OK"}
 ```
 
-![Suricata running on wlan1 and docker0](screenshots/suricata-running.png)
+![Suricata работает на wlan1 и docker0](screenshots/suricata-running.png)
 
-## Test and alert analysis
+## Тест и анализ алертов
 
-While Suricata was running, a TCP SYN scan was started against the workstation from a second terminal, and the
-alert log was watched live:
+Пока Suricata работала, из второго терминала было запущено TCP SYN-сканирование рабочей станции, а журнал алертов
+отслеживался в реальном времени:
 
 ```bash
 sudo nmap -sS -Pn -p 1-1000 192.168.0.101
 sudo tail -f /var/log/suricata/fast.log
 ```
 
-Example alert captured during the session:
+Пример алерта, зафиксированного во время сеанса:
 
 ```text
 [**] [1:2022973:1] ET INFO Possible Kali Linux hostname in DHCP Request Packet [**]
 [Classification: Potential Corporate Privacy Violation] [Priority: 1] {UDP} 192.168.0.101:68 -> 192.168.0.1:67
 ```
 
-![fast.log alert next to the Nmap scan](screenshots/suricata-alerts.png)
+![Алерт в fast.log рядом со сканированием Nmap](screenshots/suricata-alerts.png)
 
-**Triage:** the workstation announced the hostname `kali` in its DHCP request. In a corporate network this is a
-useful signal — an offensive-security distribution appearing on the LAN — and should be checked against the asset
-inventory. Here it is the analyst's own lab machine, so the alert is a **true positive with an expected cause**
-and can be tuned (suppressed for this host) rather than escalated.
+**Разбор (триаж):** рабочая станция сообщила имя хоста `kali` в своём DHCP-запросе. В корпоративной сети это
+полезный сигнал — в LAN появился дистрибутив для наступательной безопасности (offensive security), — и его следует
+сверить с инвентаризацией активов. Здесь это собственная лабораторная машина аналитика, поэтому алерт является
+**истинным срабатыванием (true positive) с ожидаемой причиной** и его можно донастроить (подавить для этого хоста),
+а не эскалировать.
 
-## Key learnings
+## Ключевые выводы
 
-- Monitoring `docker0` is required to see traffic between lab containers; the physical interface alone misses it
-- Informational rules (`ET INFO`) produce context, not attacks — triage means deciding *expected vs unexpected*
-- Port scans need dedicated scan-detection rules or thresholds; they are not guaranteed to alert by default
+- Мониторинг `docker0` необходим, чтобы видеть трафик между лабораторными контейнерами; на одном только физическом интерфейсе он не виден
+- Информационные правила (`ET INFO`) дают контекст, а не сообщают об атаках — разбор сводится к решению *ожидаемо это или нет*
+- Для сканирования портов нужны специальные правила обнаружения сканирования или пороговые значения; по умолчанию алерт на них не гарантирован
 
-## Next steps
+## Следующие шаги
 
-- Write and test a local rule with a threshold for SYN scans against `HOME_NET`
-- Ship `eve.json` to the Wazuh manager to correlate network and host alerts in one place
+- Написать и протестировать локальное правило с порогом для SYN-сканирований, направленных на `HOME_NET`
+- Отправлять `eve.json` в менеджер Wazuh, чтобы сопоставлять (коррелировать) сетевые и хостовые алерты в одном месте
 
-## Related
+## Связанные материалы
 
-- [SIEM with Wazuh](../SIEM/)
-- [Nmap full scan](../nmap-scan/)
+- [SIEM на Wazuh](../SIEM/)
+- [Полное сканирование Nmap](../nmap-scan/)

@@ -1,39 +1,38 @@
-# 💻 Development Portfolio
+# 💻 Портфолио разработки
 
-Full-stack work on a **commercial fintech / credit-consulting platform** (2.5+ years): client apps, core API, CRM integrations, lawyer tools, partner commissions, and self-hosted production infrastructure.
+Full-stack-разработка **коммерческой платформы в сфере финтеха / кредитного консалтинга** (более 2,5 года): клиентские приложения, основной API (Core API), интеграции с CRM, инструменты для юристов, партнёрские комиссии и продакшен-инфраструктура на собственном сервере.
 
-> **Confidentiality:** Source code, secrets, env files, webhooks, and client data are **not** published (NDA / production safety).  
-> This folder contains **case studies**, architecture overview, and **public login-screen** screenshots only.
+> **Конфиденциальность:** исходный код, секреты, env-файлы, вебхуки и данные клиентов **не** публикуются (NDA / безопасность продакшена).  
+> В этой папке — только **кейсы**, обзор архитектуры и скриншоты **публичных экранов входа**.
 
-![Platform architecture](./assets/architecture.png)
+![Архитектура платформы](./assets/architecture.png)
 
-## Projects
+## Проекты
 
-| Project | Status | Stack (high level) | Link |
+| Проект | Статус | Стек (в общих чертах) | Ссылка |
 |---------|--------|--------------------|------|
-| [Core API](./core-api/) | Production | C# · ASP.NET Core · PostgreSQL | [Open](./core-api/) |
-| [Client Mini App](./client-mini-app/) | Production | React · TypeScript · Telegram/MAX | [Open](./client-mini-app/) |
-| [Admin Panel](./admin-panel/) | Production | React · TypeScript | [Open](./admin-panel/) |
-| [Lawyer Workspace](./lawyer-workspace/) | Production | FastAPI · Documents · CRM | [Open](./lawyer-workspace/) |
-| [Partner Program](./partner-program/) | Production | Django · React · Webhooks | [Open](./partner-program/) |
-| [Bureau Automation](./bureau-automation/) | Production (optional robot) | FastAPI · OCR · Mail agent | [Open](./bureau-automation/) |
-| [Production Infrastructure](./production-infra/) | Production | Docker · Traefik · Mail · DNS | [Open](./production-infra/) |
-| [Credit Enot](./credit-enot/) | **In development** | React Native · ASP.NET · Python | [Open](./credit-enot/) |
+| [Основной API (Core API)](./core-api/) | Продакшен | C# · ASP.NET Core · PostgreSQL | [Открыть](./core-api/) |
+| [Клиентское мини-приложение](./client-mini-app/) | Продакшен | React · TypeScript · Telegram/MAX | [Открыть](./client-mini-app/) |
+| [Админ-панель](./admin-panel/) | Продакшен | React · TypeScript | [Открыть](./admin-panel/) |
+| [Рабочее место юриста](./lawyer-workspace/) | Продакшен | FastAPI · Документы · CRM | [Открыть](./lawyer-workspace/) |
+| [Партнёрская программа](./partner-program/) | Продакшен | Django · React · Вебхуки | [Открыть](./partner-program/) |
+| [Автоматизация работы с БКИ](./bureau-automation/) | Продакшен (робот — опционально) | FastAPI · OCR · Почтовый агент | [Открыть](./bureau-automation/) |
+| [Продакшен-инфраструктура](./production-infra/) | Продакшен | Docker · Traefik · Почта · DNS | [Открыть](./production-infra/) |
+| [Credit Enot](./credit-enot/) | **В разработке** | React Native · ASP.NET · Python | [Открыть](./credit-enot/) |
 
-## What I owned
+## За что я отвечал
 
-- End-to-end product delivery (not only features — also deploys, incidents, runbooks)
-- Multi-stack production on a single self-hosted server
-- CRM pipeline safety (funnel guards, commission integrity)
-- Dual-platform mini apps (Telegram + MAX)
+- Поставка продукта от начала до конца (не только фичи — ещё и деплой, инциденты, регламенты (runbooks))
+- Продакшен из нескольких стеков на одном собственном сервере
+- Безопасность воронок CRM (защитные проверки воронок, целостность комиссий)
+- Мини-приложения для двух платформ (Telegram + MAX)
 
-## Skills demonstrated
+## Продемонстрированные навыки
 
 `C#` · `ASP.NET Core` · `Python` · `FastAPI` · `Django` · `React` · `TypeScript` · `React Native` · `PostgreSQL` · `Docker` · `Traefik` · `Bitrix24` · `Telegram Mini Apps` · `OCR` · `JWT` · `Webhooks`
 
-## Screenshot policy
+## Правила для скриншотов
 
-Real UI captures from public login screens, OpenAPI docs, demo/fixture client flows, and infra status boards.
+Реальные снимки интерфейса: публичные экраны входа, документация OpenAPI, клиентские сценарии на демо- и тестовых данных (fixtures), а также панели статуса инфраструктуры.
 
-**Excluded on purpose:** authenticated client cabinets with real PII, deal PDFs, letters, `.env`, tokens, webhook URLs.
-
+**Намеренно исключены:** личные кабинеты клиентов после авторизации с реальными персональными данными (PII), PDF-файлы сделок, письма, `.env`, токены, URL вебхуков.

@@ -1,24 +1,24 @@
-# Nmap Full Scan + Python Report Parser
+# Полное сканирование Nmap + парсер отчётов на Python
 
-## Objective
+## Цель
 
-Scan a lab target (Metasploitable 2) for open ports and service versions, export the results to XML and turn them
-into a readable report with a small Python parser.
+Просканировать лабораторную цель (Metasploitable 2) на наличие открытых портов и версий сервисов, экспортировать
+результаты в XML и превратить их в читаемый отчёт с помощью небольшого парсера на Python.
 
-## Lab setup
+## Лабораторный стенд
 
-- Metasploitable 2 in QEMU, FTP and SSH forwarded to `127.0.0.1:2121` and `127.0.0.1:2223`
-- Nmap, Python 3 (standard library only)
+- Metasploitable 2 в QEMU, FTP и SSH проброшены на `127.0.0.1:2121` и `127.0.0.1:2223`
+- Nmap, Python 3 (только стандартная библиотека)
 
-## Steps
+## Шаги
 
-### 1. Full port scan
+### 1. Полное сканирование портов
 
 ```bash
 nmap -p- -T4 127.0.0.1
 ```
 
-`-p-` scans all 65,535 TCP ports, `-T4` uses faster timing.
+`-p-` сканирует все 65 535 TCP-портов, `-T4` задаёт более быстрый режим тайминга.
 
 ```text
 PORT     STATE SERVICE
@@ -26,7 +26,7 @@ PORT     STATE SERVICE
 2223/tcp open  ssh
 ```
 
-### 2. Service and version detection
+### 2. Определение сервисов и версий
 
 ```bash
 nmap -sV -p 2121,2223 127.0.0.1
@@ -38,13 +38,13 @@ PORT     STATE SERVICE VERSION
 2223/tcp open  ssh     OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)
 ```
 
-### 3. Export to XML
+### 3. Экспорт в XML
 
 ```bash
 nmap -sV -p- -oX scan_results.xml 127.0.0.1
 ```
 
-### 4. Parse the XML
+### 4. Парсинг XML
 
 ```bash
 python3 parse_nmap.py scan_results.xml
@@ -66,23 +66,23 @@ python3 parse_nmap.py scan_results.xml
   ⚠️  Potentially risky services: 2
 ```
 
-The parser uses `xml.etree.ElementTree`, prints every open port with product and version, and counts services that
-are commonly risky when exposed (`ftp`, `ssh`, `telnet`, `http`). Source: [`parse_nmap.py`](parse_nmap.py).
+Парсер использует `xml.etree.ElementTree`, выводит каждый открытый порт с названием продукта и версией и подсчитывает
+сервисы, которые обычно рискованно оставлять доступными извне (`ftp`, `ssh`, `telnet`, `http`). Исходный код: [`parse_nmap.py`](parse_nmap.py).
 
-## Findings
+## Выявленные проблемы
 
-| Port | Service | Version | Why it matters |
+| Порт | Сервис | Версия | Почему это важно |
 |------|---------|---------|----------------|
-| 2121 | FTP | vsftpd 2.3.4 | This release shipped with a known backdoor (CVE-2011-2523); FTP also sends credentials in cleartext |
-| 2223 | SSH | OpenSSH 4.7p1 | Released in 2008, many known CVEs; should be upgraded |
+| 2121 | FTP | vsftpd 2.3.4 | Этот релиз распространялся с известным бэкдором (CVE-2011-2523); кроме того, FTP передаёт учётные данные открытым текстом |
+| 2223 | SSH | OpenSSH 4.7p1 | Выпущен в 2008 году, много известных CVE; следует обновить |
 
-## Recommendations
+## Рекомендации
 
-- Remove or upgrade vsftpd 2.3.4; prefer SFTP
-- Upgrade OpenSSH, disable password login, allow keys only
-- Keep an inventory of exposed services and rescan after every change
+- Удалить или обновить vsftpd 2.3.4; предпочтительно использовать SFTP
+- Обновить OpenSSH, отключить вход по паролю, разрешить вход только по ключам
+- Вести инвентаризацию доступных извне сервисов и повторять сканирование после каждого изменения
 
-## Files
+## Файлы
 
-- [`scan_results.xml`](scan_results.xml) — raw Nmap XML output
-- [`parse_nmap.py`](parse_nmap.py) — XML report parser
+- [`scan_results.xml`](scan_results.xml) — сырой XML-вывод Nmap
+- [`parse_nmap.py`](parse_nmap.py) — парсер XML-отчёта

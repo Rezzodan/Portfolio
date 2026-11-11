@@ -1,39 +1,39 @@
-# Lawyer Workspace + Mail Agent
+# Рабочее место юриста + почтовый агент
 
-![Cover](./assets/cover.png)
-## Screenshots
+![Обложка](./assets/cover.png)
+## Скриншоты
 
-![Lawyer login](./assets/ui-login.png)
+![Вход для юриста](./assets/ui-login.png)
 
-![Credit Helper API docs](./assets/api-docs.png)
+![Документация Credit Helper API](./assets/api-docs.png)
 
-Login UI + public OpenAPI surface (no case data).
+Интерфейс входа + публичная часть OpenAPI (без данных по делам).
 
-**Role:** Full-stack  
-**Status:** Production  
-**Stack:** FastAPI · Web UI · CRM sync · OCR · DOCX generation · mail agent · LLM OCR helpers
+**Роль:** Full-stack  
+**Статус:** Продакшен  
+**Стек:** FastAPI · веб-интерфейс · синхронизация с CRM · OCR · генерация DOCX · почтовый агент · LLM-помощники для OCR
 
-## Overview
+## Обзор
 
-Workspace for lawyers: sync deals from CRM, analyze credit reports, build dispute matrix, generate claim letters, send/receive bureau mail under human control.
+Рабочее место для юристов: синхронизация сделок из CRM, анализ кредитных отчётов, построение матрицы оспаривания, генерация претензионных писем, отправка и получение писем бюро кредитных историй (БКИ) под контролем человека.
 
-## What I built
+## Что я сделал
 
-- Pipeline: **Sync → Report → Matrix → Claims → Send**
-- Bitrix deal sync with document completeness checks
-- Claim generation (DOCX) and optional CRM writeback
-- OpenClaw-style mail agent colocated with the lawyer stack (controlled sending)
+- Конвейер: **Синхронизация → Отчёт → Матрица → Претензии → Отправка**
+- Синхронизация сделок из Bitrix с проверкой комплектности документов
+- Генерация претензий (DOCX) и опциональная обратная запись в CRM
+- Почтовый агент в стиле OpenClaw, размещённый вместе со стеком юриста (контролируемая отправка)
 
-## Results
+## Результаты
 
-- Lawyers can run complex cases without relying only on a blind robot
-- One ownership boundary for agent + deal work files (fewer port/secret conflicts)
+- Юристы могут вести сложные дела, не полагаясь только на «слепого» робота
+- Единая зона ответственности для агента и рабочих файлов сделок (меньше конфликтов портов и секретов)
 
-## Hard problem
+## Сложная проблема
 
-**Split ownership of the mail agent between automation and lawyer stacks** caused port conflicts and secret drift.  
-**Fix:** moved agent + workspace into the lawyer stack; kept the Bitrix robot optional for mass automation.
+**Разделённое владение почтовым агентом между стеком автоматизации и стеком юриста** приводило к конфликтам портов и расхождению секретов.  
+**Решение:** агент и рабочее пространство перенесены в стек юриста; робот Bitrix оставлен опциональным — для массовой автоматизации.
 
-## Confidentiality
+## Конфиденциальность
 
-Login screenshot only. No deal PDFs, passports, or letters are published.
+Только скриншот экрана входа. PDF сделок, паспорта и письма не публикуются.

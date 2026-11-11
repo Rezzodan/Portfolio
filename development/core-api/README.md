@@ -1,42 +1,42 @@
-# Core API
+# Основной API (Core API)
 
-![Cover](./assets/cover.png)
-## Screenshots
+![Обложка](./assets/cover.png)
+## Скриншоты
 
-![API Swagger](./assets/swagger.png)
+![Swagger API](./assets/swagger.png)
 
-![More endpoints](./assets/swagger-more.png)
+![Другие эндпоинты](./assets/swagger-more.png)
 
-Public OpenAPI docs (LAN URL redacted). No secrets or payloads shown.
+Публичная документация OpenAPI (адрес в локальной сети скрыт). Секреты и содержимое запросов не показаны.
 
-**Role:** Backend / platform  
-**Status:** Production  
-**Stack:** C# · ASP.NET Core · EF Core · PostgreSQL · Hangfire · CRM REST · Mail API · OCR/LLM helpers
+**Роль:** Бэкенд / платформа  
+**Статус:** Продакшен  
+**Стек:** C# · ASP.NET Core · EF Core · PostgreSQL · Hangfire · CRM REST · Mail API · вспомогательные модули OCR/LLM
 
-## Overview
+## Обзор
 
-Central REST API for the fintech platform. Powers the client mini app, operator admin, bots, and lawyer analysis flows.
+Центральный REST API финтех-платформы. Обслуживает клиентское мини-приложение, админ-панель операторов, ботов и сценарии анализа для юристов.
 
-## What I built
+## Что я сделал
 
-- User & deal lifecycle (registration, documents, e-signature, statuses)
-- Background jobs (Hangfire) for CRM sync and notifications
-- Credit-bureau report parsing (NBKI / OKB / SB) and PDF-related workflows
-- Telegram / MAX bot integration
-- Client work-mailbox provisioning via self-hosted mail API
-- Category guards so CRM writes stay in allowed pipelines
+- Жизненный цикл пользователя и сделки (регистрация, документы, электронная подпись, статусы)
+- Фоновые задачи (Hangfire) для синхронизации с CRM и уведомлений
+- Парсинг отчётов бюро кредитных историй (БКИ: NBKI / OKB / SB) и процессы, связанные с PDF
+- Интеграция с ботами Telegram / MAX
+- Создание рабочих почтовых ящиков для клиентов через API почты, развёрнутой на собственном сервере
+- Проверки категорий, чтобы запись в CRM шла только в разрешённые воронки
 
-## Results
+## Результаты
 
-- Single source of truth for clients, deals, and integrations
-- Stable public HTTPS API behind a reverse proxy
-- Shared backend used by multiple frontends without duplicating business logic
+- Единый источник истины по клиентам, сделкам и интеграциям
+- Стабильный публичный HTTPS API за обратным прокси (reverse proxy)
+- Общий бэкенд для нескольких фронтендов без дублирования бизнес-логики
 
-## Hard problem
+## Сложная проблема
 
-**Unreliable bureau parsing & CRM side effects** — wrong field mapping (e.g. SMP vs overdue) and accidental writes into partner/installment funnels.  
-**Fix:** iterated parsers with debug rebuild loops + hard allow/block lists for CRM categories.
+**Ненадёжный парсинг отчётов БКИ и побочные эффекты в CRM** — неверное сопоставление полей (например, путаница SMP и просрочки) и случайная запись в партнёрскую воронку / воронку рассрочки.  
+**Решение:** итеративная доработка парсеров с циклами отладочных пересборок + жёсткие allow/block-списки для категорий CRM.
 
-## Confidentiality
+## Конфиденциальность
 
-No source code, connection strings, tokens, or internal field IDs are published here.
+Исходный код, строки подключения, токены и внутренние ID полей здесь не публикуются.

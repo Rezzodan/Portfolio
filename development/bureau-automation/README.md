@@ -1,40 +1,40 @@
-# Bureau Automation (CRM Robot)
+# Автоматизация работы с БКИ (CRM-робот)
 
-![Cover](./assets/cover.png)
-## Screenshots
+![Обложка](./assets/cover.png)
+## Скриншоты
 
-![CF API docs](./assets/api-docs.png)
+![Документация CF API](./assets/api-docs.png)
 
-![Mail agent docs](./assets/openclaw-docs.png)
+![Документация почтового агента](./assets/openclaw-docs.png)
 
-Public OpenAPI for the webhook robot and mail agent. No webhook secrets.
+Публичный OpenAPI робота для вебхуков и почтового агента. Без секретов вебхуков.
 
-**Role:** Backend automation  
-**Status:** Production (optional — can be stopped when unused)  
-**Stack:** FastAPI · CRM webhooks · OCR · DOCX fill · mail agent · HMAC callbacks
+**Роль:** Бэкенд-автоматизация  
+**Статус:** Продакшен (опционально — можно остановить, когда не используется)  
+**Стек:** FastAPI · вебхуки CRM · OCR · заполнение DOCX · почтовый агент · HMAC-колбэки
 
-## Overview
+## Обзор
 
-Webhook-driven robot: on CRM stage change, assemble deal files, OCR passport fields, fill claim templates, upload letters, ask the mail agent to send, then classify replies.
+Робот, работающий по вебхукам: при смене стадии в CRM он собирает файлы сделки, распознаёт поля паспорта через OCR, заполняет шаблоны претензий, загружает письма, поручает почтовому агенту отправку, а затем классифицирует ответы.
 
-## What I built
+## Что я сделал
 
-- Stage-gated pipeline with file locks per deal
-- PDF classification (passport vs bureau reports)
-- Document fill using a ready signature image (not fragile signature OCR)
-- Strict CRM category guards before any download/write
-- PII masking in logs
+- Конвейер обработки с привязкой к стадиям (stage-gated) и блокировкой файлов для каждой сделки
+- Классификация PDF (паспорт или отчёты бюро кредитных историй (БКИ))
+- Заполнение документов с использованием готового изображения подписи (а не ненадёжного OCR подписи)
+- Строгие проверки категорий CRM перед любым скачиванием или записью
+- Маскирование персональных данных (PII) в логах
 
-## Results
+## Результаты
 
-- Mass standard correspondence without manual copy-paste
-- Clear split: robot for volume, lawyer UI for complex/retry cases
+- Массовая типовая переписка без ручного копирования и вставки
+- Чёткое разделение: робот — для большого потока, интерфейс юриста — для сложных случаев и повторных попыток
 
-## Hard problem
+## Сложная проблема
 
-**Robot touching the wrong CRM funnels** (partners / installment) would corrupt deals.  
-**Fix:** allowlist/blocklist checked **before** downloading files; optional stack shutdown to save RAM when unused.
+**Вмешательство робота в чужие воронки CRM** (партнёрскую / рассрочки) привело бы к порче сделок.  
+**Решение:** проверка по allowlist/blocklist **до** скачивания файлов; возможность остановить стек, чтобы экономить RAM, когда он не используется.
 
-## Confidentiality
+## Конфиденциальность
 
-No webhook URLs, HMAC secrets, or sample letters published.
+URL вебхуков, HMAC-секреты и образцы писем не публикуются.

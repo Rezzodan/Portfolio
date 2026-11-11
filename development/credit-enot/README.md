@@ -1,43 +1,43 @@
-# Credit Enot — B2C App *(in development)*
+# Credit Enot — B2C-приложение *(в разработке)*
 
-![Cover](./assets/cover.png)
-## Screenshots
+![Обложка](./assets/cover.png)
+## Скриншоты
 
-![Splash](./assets/ui-splash.png)
+![Заставка](./assets/ui-splash.png)
 
-![Demo home](./assets/ui-demo.png)
+![Главный экран (демо)](./assets/ui-demo.png)
 
-In-development mobile UI (demo mode, synthetic user name).
+Мобильный интерфейс в разработке (демо-режим, вымышленное имя пользователя).
 
-**Role:** Product / architecture / mobile  
-**Status:** 🚧 **In active development**  
-**Stack:** React Native (Expo) · ASP.NET Core API · Python claims & mail services
+**Роль:** Продукт / архитектура / мобильная разработка  
+**Статус:** 🚧 **В активной разработке**  
+**Стек:** React Native (Expo) · ASP.NET Core API · Python-сервисы претензий и почты
 
-## Overview
+## Обзор
 
-New isolated **B2C** product line (“Credit Enot”). Intentionally **not** wired into the legacy mini-app / partner / CRM stack (except shared mail infrastructure where needed).
+Новая изолированная продуктовая линейка **B2C** («Credit Enot»). Намеренно **не** подключена к legacy-стеку мини-приложения / партнёрской программы / CRM (за исключением общей почтовой инфраструктуры, где это необходимо).
 
-## What is already in place
+## Что уже готово
 
-- Mobile app shell: OTP auth (stub/demo), onboarding goals, bureau report upload, income questions
-- Home: carousel → rating/profile after onboarding steps
-- Custom tab bar and time-limited promo offer UI (per-user local timer)
-- Report notice badge states (outdated reports / bureau reply / none) — backend rules in progress
-- Separate deploy compose for API, claims, and mail agent
-- Product decisions & screen-flow docs
+- Каркас мобильного приложения: OTP-авторизация (заглушка/демо), цели при онбординге, загрузка отчёта из бюро кредитных историй (БКИ), вопросы о доходе
+- Главный экран: карусель → рейтинг/профиль после шагов онбординга
+- Кастомный таб-бар и интерфейс промо-предложения с ограниченным сроком действия (локальный таймер для каждого пользователя)
+- Состояния бейджа уведомления об отчётах (отчёты устарели / ответ от БКИ / нет) — правила на бэкенде в работе
+- Отдельный compose для деплоя API, сервиса претензий и почтового агента
+- Документация по продуктовым решениям и схемам переходов между экранами
 
-## What I’m building next
+## Над чем я работаю дальше
 
-- Server-side promo/offers and notice kinds
-- Hardening auth beyond demo OTP
-- Store builds (EAS) when product-ready
+- Промо/предложения и типы уведомлений на стороне сервера
+- Усиление авторизации, выходящее за рамки демо-OTP
+- Сборки для магазинов приложений (EAS), когда продукт будет готов
 
-## Design constraints learned early
+## Ограничения дизайна, выявленные на раннем этапе
 
-- Don’t swap full tab-bar state SVGs (home icon “jumps”) — animate glow only
-- Prefer PNG glows over broken SVG filters on web
-- Keep this stack isolated from legacy production blast radius
+- Не подменять SVG таб-бара целиком при смене состояния (иконка «Главная» «прыгает») — анимировать только свечение
+- В вебе предпочитать PNG-свечение SVG-фильтрам, которые там работают некорректно
+- Держать этот стек вне радиуса поражения legacy-продакшена
 
-## Confidentiality
+## Конфиденциальность
 
-No private keys, store credentials, or production client data. This case study describes scope and architecture only.
+Без приватных ключей, учётных данных магазинов приложений и данных клиентов из продакшена. Этот кейс описывает только объём работ и архитектуру.

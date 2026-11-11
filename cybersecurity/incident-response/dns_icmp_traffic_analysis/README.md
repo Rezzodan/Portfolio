@@ -1,64 +1,64 @@
-# DNS / ICMP Traffic Analysis — Incident Report
+# Анализ трафика DNS / ICMP — отчёт об инциденте
 
-## 📋 Overview
+## 📋 Обзор
 
-This project is a **network traffic analysis** of a cybersecurity incident involving a DNS service failure. It demonstrates the ability to use packet analysis tools (`tcpdump`) to identify the root cause of a network outage and document it in a professional incident report.
+Этот проект — **анализ сетевого трафика** инцидента кибербезопасности, связанного со сбоем службы DNS. Он демонстрирует умение использовать инструменты анализа пакетов (`tcpdump`), чтобы установить первопричину сетевого сбоя и задокументировать её в профессиональном отчёте об инциденте.
 
-This project was completed as part of the **Google Cybersecurity Professional Certificate** (Course 3: Connect and Protect: Networks and Network Security).
+Проект выполнен в рамках **Google Cybersecurity Professional Certificate** (Курс 3: Connect and Protect: Networks and Network Security).
 
-## 🎯 Objective
+## 🎯 Цель
 
-Analyze network traffic captured with `tcpdump` to:
-- Identify which network protocols were involved in the incident.
-- Determine why the website `www.yummyrecipesforme.com` was unreachable.
-- Provide a likely root cause and recommendations for resolution.
+Проанализировать сетевой трафик, захваченный с помощью `tcpdump`, чтобы:
+- Определить, какие сетевые протоколы были задействованы в инциденте.
+- Установить, почему сайт `www.yummyrecipesforme.com` был недоступен.
+- Указать вероятную первопричину и дать рекомендации по устранению.
 
-## 🔍 Incident Summary
+## 🔍 Краткое описание инцидента
 
-| Item | Details |
+| Параметр | Подробности |
 |---|---|
-| **Website** | `www.yummyrecipesforme.com` |
-| **Error** | "Destination port unreachable" |
-| **Protocols Involved** | UDP (DNS query), ICMP (error response) |
-| **Affected Port** | 53 (DNS) |
-| **DNS Server IP** | `203.0.113.2` |
-| **Client IP** | `192.51.100.15` |
+| **Сайт** | `www.yummyrecipesforme.com` |
+| **Ошибка** | "Destination port unreachable" |
+| **Задействованные протоколы** | UDP (DNS-запрос), ICMP (ответ с ошибкой) |
+| **Затронутый порт** | 53 (DNS) |
+| **IP DNS-сервера** | `203.0.113.2` |
+| **IP клиента** | `192.51.100.15` |
 
-## 📊 Analysis
+## 📊 Анализ
 
-The `tcpdump` log showed:
-1. The client sent a **UDP** query to port 53 on the DNS server to resolve the domain name.
-2. Instead of a DNS response, the server returned an **ICMP** error: `Destination port unreachable`.
-3. This indicates that the DNS service on the server was not running or was blocked by a firewall.
+Лог `tcpdump` показал:
+1. Клиент отправил **UDP**-запрос на порт 53 DNS-сервера, чтобы разрешить доменное имя.
+2. Вместо DNS-ответа сервер вернул ошибку **ICMP**: `Destination port unreachable`.
+3. Это указывает на то, что служба DNS на сервере не работала или была заблокирована межсетевым экраном (firewall).
 
-## 🛠 Tools Used
+## 🛠 Использованные инструменты
 
-- **`tcpdump`** — packet capture and analysis
-- **Wireshark** (optional) — for visual packet inspection
-- **Linux CLI** — for log analysis and filtering
+- **`tcpdump`** — захват и анализ пакетов
+- **Wireshark** (опционально) — для визуального просмотра пакетов
+- **Командная строка Linux (CLI)** — для анализа и фильтрации логов
 
-## 💡 Root Cause
+## 💡 Первопричина
 
-The most likely cause is that the **DNS service** on the server `203.0.113.2` had crashed, stopped, or was misconfigured. Alternatively, a **firewall rule** may have been blocking UDP port 53, preventing DNS queries from being processed.
+Наиболее вероятная причина — **служба DNS** на сервере `203.0.113.2` аварийно завершилась, была остановлена или неправильно настроена. Другой возможный вариант: **правило фаервола** блокировало UDP-порт 53, из-за чего DNS-запросы не обрабатывались.
 
-## 📝 Recommendations
+## 📝 Рекомендации
 
-1. **Restart the DNS service** on the server (`systemctl restart bind9` or equivalent).
-2. **Verify firewall rules** to ensure UDP port 53 is open for incoming queries.
-3. **Implement DNS monitoring** to detect service failures before they impact users.
-4. **Set up redundant DNS servers** for high availability.
+1. **Перезапустить службу DNS** на сервере (`systemctl restart bind9` или аналог).
+2. **Проверить правила фаервола**, чтобы убедиться, что UDP-порт 53 открыт для входящих запросов.
+3. **Внедрить мониторинг DNS**, чтобы обнаруживать сбои службы до того, как они затронут пользователей.
+4. **Развернуть резервные DNS-серверы** для обеспечения высокой доступности.
 
-## 🎓 Learning Outcomes
+## 🎓 Результаты обучения
 
-Through this project, I gained hands-on experience with:
-- Capturing and analyzing network traffic using `tcpdump`.
-- Identifying DNS and ICMP protocols in packet captures.
-- Diagnosing a network outage caused by a service failure.
-- Writing a professional incident report suitable for stakeholders.
+Благодаря этому проекту у меня появился практический опыт:
+- Захвата и анализа сетевого трафика с помощью `tcpdump`.
+- Распознавания протоколов DNS и ICMP в захваченных пакетах.
+- Диагностики сетевого сбоя, вызванного отказом службы.
+- Написания профессионального отчёта об инциденте для заинтересованных сторон (руководства).
 
-*This project is for educational and portfolio purposes only.*
+*Этот проект предназначен исключительно для учебных целей и портфолио.*
 
-## Files
+## Файлы
 
-- [`incident-report.pdf`](incident-report.pdf) — full incident report
-- [`traffic.png`](traffic.png) — tcpdump output used in the analysis
+- [`incident-report.pdf`](incident-report.pdf) — полный отчёт об инциденте
+- [`traffic.png`](traffic.png) — вывод tcpdump, использованный в анализе
