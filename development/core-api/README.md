@@ -21,8 +21,8 @@ Central REST API for the fintech platform. Powers the client mini app, operator 
 
 - User & deal lifecycle (registration, documents, e-signature, statuses)
 - Background jobs (Hangfire) for CRM sync and notifications
-- Credit-bureau report parsing (NBKI / OKB / SB) and PDF-related workflows
-- Telegram / MAX bot integration
+- Credit-bureau report parsing (several bureau formats) and PDF-related workflows
+- Messenger bot integration (Telegram and a second platform)
 - Client work-mailbox provisioning via self-hosted mail API
 - Category guards so CRM writes stay in allowed pipelines
 

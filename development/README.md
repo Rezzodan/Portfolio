@@ -12,7 +12,7 @@ Full-stack work on a **commercial fintech / credit-consulting platform** (2.5+ y
 | Project | Status | Stack (high level) | Link |
 |---------|--------|--------------------|------|
 | [Core API](./core-api/) | Production | C# · ASP.NET Core · PostgreSQL | [Open](./core-api/) |
-| [Client Mini App](./client-mini-app/) | Production | React · TypeScript · Telegram/MAX | [Open](./client-mini-app/) |
+| [Client Mini App](./client-mini-app/) | Production | React · TypeScript · Telegram Mini Apps | [Open](./client-mini-app/) |
 | [Admin Panel](./admin-panel/) | Production | React · TypeScript | [Open](./admin-panel/) |
 | [Lawyer Workspace](./lawyer-workspace/) | Production | FastAPI · Documents · CRM | [Open](./lawyer-workspace/) |
 | [Partner Program](./partner-program/) | Production | Django · React · Webhooks | [Open](./partner-program/) |
@@ -25,7 +25,7 @@ Full-stack work on a **commercial fintech / credit-consulting platform** (2.5+ y
 - End-to-end product delivery (not only features — also deploys, incidents, runbooks)
 - Multi-stack production on a single self-hosted server
 - CRM pipeline safety (funnel guards, commission integrity)
-- Dual-platform mini apps (Telegram + MAX)
+- Dual-platform mini apps (Telegram + a second messenger platform)
 
 ## Skills demonstrated
 
