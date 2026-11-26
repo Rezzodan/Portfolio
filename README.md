@@ -30,7 +30,7 @@ HMAC-signed callbacks, PII masking in logs, and handling production incidents on
 |--------|----------|
 | [`cybersecurity/`](cybersecurity/) | Home-lab projects: detection and monitoring, incident response, audit, attack analysis |
 | [`development/`](development/) | Case studies of the production platform: core API, mini apps, CRM, partner program, infra |
-| [`certificates/`](certificates/) | Google Cybersecurity Certificate (in progress), Stepik C |
+| [`certificates/`](certificates/) | Google Cybersecurity Certificate (4 of 8 courses), Stepik C |
 | [`resume/`](resume/) | Resumes for each target role |
 
 ## Stack
