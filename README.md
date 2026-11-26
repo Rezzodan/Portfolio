@@ -33,7 +33,7 @@
 |--------|----------|
 | [`cybersecurity/`](cybersecurity/) | Проекты домашней лаборатории: обнаружение и мониторинг, реагирование на инциденты, аудит, анализ атак |
 | [`development/`](development/) | Кейсы продакшн-платформы: основной API, мини-приложения, CRM, партнёрская программа, инфраструктура |
-| [`certificates/`](certificates/) | Google Cybersecurity Certificate (в процессе), курс по C на Stepik |
+| [`certificates/`](certificates/) | Google Cybersecurity Certificate (4 из 8 курсов), курс по C на Stepik |
 | [`resume/`](resume/) | Резюме под каждую целевую роль |
 
 ## Стек
